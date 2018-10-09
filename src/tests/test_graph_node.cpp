@@ -5,6 +5,7 @@
 
 #include "GraphNode.hpp"
 
+using namespace ugly;
 using namespace std;
 
 int main(void){

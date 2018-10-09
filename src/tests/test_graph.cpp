@@ -9,6 +9,7 @@
 #include "../CPP_GraphNode/GraphNode.hpp"
 #include "../CPP_EdgeClass/EdgeClass.hpp"
 
+using namespace ugly;
 using namespace std;
 
 int main(void){

@@ -6,6 +6,7 @@
 
 #include "EdgesClass.hpp"
 
+using namespace ugly;
 using namespace std;
 
 int main(){

@@ -5,6 +5,7 @@
 #include "../CPP_EdgeClass/EdgeClass.hpp"
 
 using namespace std;
+using namespace ugly;
 
 int main(void){
 

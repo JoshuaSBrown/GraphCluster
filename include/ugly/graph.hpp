@@ -1,6 +1,6 @@
 
-#ifndef _GRAPHCLUSTER_HPP_
-#define _GRAPHCLUSTER_HPP_
+#ifndef UGLY_GRAPH_HPP
+#define UGLY_GRAPH_HPP
 
 #include <vector>
 #include <list>
@@ -125,4 +125,4 @@ class GraphCluster {
               
 };
 
-#endif 
+#endif // UGLY_GRAPH_HPP
