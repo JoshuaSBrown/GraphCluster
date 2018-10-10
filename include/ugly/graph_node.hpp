@@ -6,7 +6,6 @@
 #include <iostream>
 #include <typeinfo>
 #include <tuple>
-#include <boost/lexical_cast.hpp>
 
 namespace ugly {
 
@@ -58,7 +57,7 @@ namespace ugly {
         std::string str(void){
           std::string result = "";
           for_each_in_tuple(tp,[&](const auto &x) { 
-              result.append(boost::lexical_cast<std::string>(x));
+              result.append(to_string(x));
               result.append(",");
               });
           return result;

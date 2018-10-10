@@ -1,12 +1,12 @@
 
+#ifndef GRAPH_EDGEUNDIRECTED_HPP
+#define GRAPH_EDGEUNDIRECTED_HPP
+
 #include <iostream>
 #include <vector>
 #include <list>
 #include <cassert>
 #include <utility>
-
-#ifndef GRAPH_EDGEUNDIRECTED_HPP
-#define GRAPH_EDGEUNDIRECTED_HPP
 
 namespace ugly {
   // Composed of two integers describing a link

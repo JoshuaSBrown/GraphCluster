@@ -1,35 +1,35 @@
 
-
+#include <memory>
 #include "graphvisitor_depth_first.hpp"
+#include "../edge/edge_weighted.hpp"
+
+using namespace std;
 
 namespace ugly {
 
-  EdgeWeighted GraphVisitorDepthFirst::getNextEdge(){
-    return edges_to_explore_.front();
-  }
 
-  void GraphVisitorDepthFirst::exploreEdge(Edge edge){
+  void GraphVisitorDepthFirst::exploreEdge(shared_ptr<Edge> edge){
     if(explored_edges_.count(edge)){
       throw invalid_argument("Cannot explore edge that has already been "
           "explored.");
     } 
-    if(!verticesHaveBeenExplored){
+    if(!verticesHaveBeenExplored(edge)){
       // If the vertices have not been explored get the one that has not been
       // explored and add it to the explored vertices
-      explored_vertices_.insert(getUnexploredVertex(edge));
+      explored_vertices_[getExploredVertex(edge)]=0.0;
     }
     // Explore the edge 
     explored_edges_.insert(edge);
   }
 
-  void GraphVisitorDepthFirst::addEdge(EdgeWeighted edge){
+  void GraphVisitorDepthFirst::addEdge(shared_ptr<Edge> edge){
     if(explored_edges_.count(edge)){
       throw invalid_argument("Cannot add edge it has already been explored");
     }
     edges_to_explore_.push_back(edge);
   }
 
-  void GraphVisitorDepthFirst::addEdges(vector<EdgeWeighted> edges){
+  void GraphVisitorDepthFirst::addEdges(vector<shared_ptr<Edge>> edges){
     for( auto edge : edges){
       addEdge(edge);
     }
@@ -47,14 +47,14 @@ namespace ugly {
    * Private Internal Methods
    ****************************************************************************/
 
-  EdgeWeighted GraphVisitorDepthFirst::getEdgeShortestDistance_(){
+  shared_ptr<Edge> GraphVisitorDepthFirst::getEdgeShortestDistance_(){
     double distance;
     bool edge_uninitialized = true;
-    Edge edge_shortest_distance_away;
-
+    shared_ptr<EdgeWeighted> edge_shortest_distance_away;
+    auto edges_to_explore_ = getEdgesToExplore_<EdgeWeighted>();
     for(auto edge : edges_to_explore_ ){
       if(!verticesHaveBeenExplored(edge)){
-        edge_distance = getDistanceFromStartingVertexToEdge_(edge);
+        auto edge_distance = getDistanceFromStartingVertexToEdge_(edge);
         if(edge_uninitialized){
           distance = edge_distance;
           edge_shortest_distance_away = edge;
@@ -65,19 +65,23 @@ namespace ugly {
         }
       }
     }
-    if(first){
+    if(edge_uninitialized){
       throw runtime_error("Cannot grab edge shortest distance away because "
           "there are no more edges to be explored");
     }
-    return edge_shortest_distance_away;
+    return dynamic_pointer_cast<Edge>(edge_shortest_distance_away);
+  }
+
+  shared_ptr<Edge> GraphVisitorDepthFirst::getNextEdge(){
+    return GraphVisitorDepthFirst::getEdgeShortestDistance_();
   }
 
   double GraphVisitorDepthFirst::getDistanceFromStartingVertexToEdge_(
-      EdgeWeighted edge){
+     shared_ptr<EdgeWeighted> edge){
 
-    auto exploredVertex = edge.getExploredVertex(edge);
+    auto exploredVertex = getExploredVertex(edge);
     auto edge_distance = explored_vertices_[exploredVertex];
-    edge_distance += edge.getWeight();
+    edge_distance += edge->getWeight();
     return edge_distance;
   }
 

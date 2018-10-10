@@ -58,10 +58,16 @@ install(FILES ${HEADERS} DESTINATION include/ugly)
 # Add source files to project #
 ###############################
 
-file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/*.cpp)
-file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/edge/*.cpp)
-file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/graphvisitor/*.cpp)
-add_library(ugly ${SOURCES})
+file(GLOB SOURCES1 ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/*.cpp)
+file(GLOB SOURCES2 ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/edge/*.cpp)
+file(GLOB SOURCES3 ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/edge/*.hpp)
+file(GLOB SOURCES4 ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/graphvisitor/*.cpp)
+file(GLOB SOURCES5 ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/graphvisitor/*.hpp)
+add_library(ugly ${SOURCES1})
+add_library(ugly ${SOURCES2})
+add_library(ugly ${SOURCES3})
+add_library(ugly ${SOURCES4})
+add_library(ugly ${SOURCES5})
 install(TARGETS ${PROJECT_NAME} DESTINATION lib/${PROJECT_NAME})
 
 set_target_properties(ugly PROPERTIES LINKER_LANGUAGE CXX)

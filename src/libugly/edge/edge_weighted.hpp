@@ -14,27 +14,23 @@ namespace ugly {
 // between two vertices
   class EdgeWeighted : public Edge {
     private:
-      int vertex1_;
-      int vertex2_;
+      static const std::string class_type;
       double weight_;
     public:
-      EdgeWeighted() :
-        vertex1_(constants::unassigned),
-        vertex2_(constants::unassigned),
-        weight_(1.0){};
+      EdgeWeighted() : weight_(1.0){
+        object_type_ = "edgeweighted";
+      };
 
       EdgeWeighted(int vertex1, int vertex2) : 
-        vertex1_(vertex1), 
-        vertex2_(vertex2), 
+        Edge(vertex1,vertex2), 
         weight_(1.0){};
 
       EdgeWeighted(int vertex1, int vertex2,double weight) : 
-        vertex1_(vertex1), 
-        vertex2_(vertex2),
+        Edge(vertex1,vertex2),
         weight_(weight){};
 
-      EdgeWeighted::setWeight(double weight){ weight_ = weight; }
-      EdgeWeighted::getWeight() const { return weight_; }
+      void setWeight(double weight){ weight_ = weight; }
+      double getWeight() const { return weight_; }
 
   };
 
