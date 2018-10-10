@@ -43,11 +43,11 @@ int main(){
         assert((edge!=edge)==0);
     }
 
-    cout << "Testing: getV1 and getV2" << endl;
+    cout << "Testing: getVertex1 and getVertex2" << endl;
     {
         Edge edge(2,3);
-        assert(edge.getV1()==2);
-        assert(edge.getV2()==3);
+        assert(edge.getVertex1()==2);
+        assert(edge.getVertex2()==3);
     }
 
     cout << "Testing: < " << endl;

@@ -1,3 +1,5 @@
+#ifndef UGLY_EDGE_HPP
+#define UGLY_EDGE_HPP
 
 #include <iostream>
 #include <vector>
@@ -5,8 +7,7 @@
 #include <cassert>
 #include <utility>
 
-#ifndef UGLY_EDGE_HPP
-#define UGLY_EDGE_HPP
+#include "../../../include/ugly/constants.hpp"
 
 namespace ugly {
 // Composed of two integers describing a link
@@ -21,10 +22,6 @@ class Edge{
       vertex2_(constants::unassigned){};
 
     Edge(int vertex1, int vertex2) : 
-      vertex1_(vertex1), 
-      vertex2_(vertex2){};
-
-    Edge(int vertex1, int vertex2,double weight) : 
       vertex1_(vertex1), 
       vertex2_(vertex2){};
 
@@ -54,7 +51,7 @@ namespace std{
   template<>
     class hash<ugly::Edge>{
       public:
-        size_t operator()(const Edge &edge) const
+        size_t operator()(const ugly::Edge &edge) const
         {
           return hash<int>()(edge.getVertex1())^hash<int>()(edge.getVertex2());
         }

@@ -48,6 +48,10 @@ endforeach(FUNC)
 
 file(GLOB HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/ugly/*.hpp)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/edge)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/graphvisitor)
+
+# Only install the public facing header files
 install(FILES ${HEADERS} DESTINATION include/ugly)
 
 ###############################
@@ -55,12 +59,9 @@ install(FILES ${HEADERS} DESTINATION include/ugly)
 ###############################
 
 file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/*.cpp)
-file(GLOB SOURCES_EDGE ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/edge/*.cpp)
-file(GLOB SOURCES_EDGE ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/edge/*.hpp)
-file(GLOB SOURCES_EDGE ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/graphvisitor/*.cpp)
-file(GLOB SOURCES_EDGE ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/graphvisitor/*.hpp)
+file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/edge/*.cpp)
+file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/libugly/graphvisitor/*.cpp)
 add_library(ugly ${SOURCES})
-add_library(ugly ${SOURCES_EDGE})
 install(TARGETS ${PROJECT_NAME} DESTINATION lib/${PROJECT_NAME})
 
 set_target_properties(ugly PROPERTIES LINKER_LANGUAGE CXX)

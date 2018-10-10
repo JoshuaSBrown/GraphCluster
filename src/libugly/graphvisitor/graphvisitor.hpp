@@ -5,6 +5,7 @@
 #include <vector>
 #include <list>
 #include <set>
+#include <map>
 
 namespace ugly {
 
@@ -23,7 +24,7 @@ namespace ugly {
       int getUnexploredVertex(Edge edge) const;
       int getExploredVertex(Edge edge) const;
       bool allEdgesExplored() const { return edges_to_explore_.size()==0 ;}
-    private:
+    protected:
       // First int is the vertex, the double is the distance
       std::map<int,double> explored_vertices_;
       std::set<Edge> explored_edges_;
