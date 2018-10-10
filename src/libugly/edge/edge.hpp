@@ -16,11 +16,21 @@ class Edge{
     int vertex1_;
     int vertex2_;
   public:
-    Edge() {}
-    Edge(int vertex1, int vertex2) : vertex1_(vertex1), vertex2_(vertex2) {};
+    Edge() :
+      vertex1_(constants::unassigned),
+      vertex2_(constants::unassigned){};
+
+    Edge(int vertex1, int vertex2) : 
+      vertex1_(vertex1), 
+      vertex2_(vertex2){};
+
+    Edge(int vertex1, int vertex2,double weight) : 
+      vertex1_(vertex1), 
+      vertex2_(vertex2){};
+
     int getOtherVertex(int vertex) const;
-    int getVertex1(void) const { return vertex1_;}
-    int getVertex2(void) const { return vertex2_;}
+    int getVertex1(void) const;
+    int getVertex2(void) const;
 
     bool containsVertex(int vertex) const;
 
