@@ -6,6 +6,7 @@
 #include <iostream>
 #include <typeinfo>
 #include <tuple>
+#include <sstream>
 
 namespace ugly {
 
@@ -31,7 +32,6 @@ namespace ugly {
       for_each_in_tuple_str(tuple, func, std::make_index_sequence<sizeof...(Ts)>());
     }
 
-
   template<class... Ts>
     class GraphNode {
 
@@ -40,7 +40,7 @@ namespace ugly {
         std::tuple<Ts...> tp;
 
       public:
-        GraphNode(int ID,Ts... ts) {
+        explicit GraphNode(int ID,Ts... ts) {
           id = ID;
           tp = std::tuple<Ts...>(ts...);          
         }
@@ -57,8 +57,9 @@ namespace ugly {
         std::string str(void){
           std::string result = "";
           for_each_in_tuple(tp,[&](const auto &x) { 
-              result.append(to_string(x));
-              result.append(",");
+              std::stringstream ss;
+              ss << x << ",";    
+              ss >> result;
               });
           return result;
         }

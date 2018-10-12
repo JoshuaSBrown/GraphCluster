@@ -8,6 +8,8 @@
 #include <cassert>
 #include <utility>
 
+#include "../../src/libugly/edge/edge.hpp"
+
 namespace ugly {
   // Composed of two integers describing a link
   // between two vertices

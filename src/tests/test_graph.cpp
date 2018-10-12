@@ -5,9 +5,9 @@
 #include <list>
 #include <vector>
 
-#include "GraphCluster.hpp"
-#include "../CPP_GraphNode/GraphNode.hpp"
-#include "../CPP_EdgeClass/EdgeClass.hpp"
+#include "../../include/ugly/graph.hpp"
+#include "../../include/ugly/graph_node.hpp"
+#include "../edge/edge.hpp"
 
 using namespace ugly;
 using namespace std;
@@ -27,7 +27,7 @@ int main(void){
     
         vector<GraphNode<string>> nds = { GN0, GN1, GN2 };
         
-        GraphCluster<string> gc(eds,nds);
+        Graph<string> gc(eds,nds);
         cout << gc.getLabel() << endl;
     }
 
@@ -58,10 +58,10 @@ int main(void){
 
         vector<GraphNode<string>> nds = { GN0, GN1, GN2, GN3, GN4 };
 
-        GraphCluster<string> gc(eds,nds);
+        Graph<string> gc(eds,nds);
         cout << gc.getLabel() << endl;
 
-        GraphCluster<string> gc2(eds,nds);
+        Graph<string> gc2(eds,nds);
 
         assert(gc==gc2);
 
@@ -74,7 +74,7 @@ int main(void){
         //     
         GraphNode<string> GN5(5,"H");
         vector<GraphNode<string>> nds2 = { GN0, GN1, GN2, GN3, GN5 };
-        GraphCluster<string> gc3(eds,nds2);
+        Graph<string> gc3(eds,nds2);
 
         assert(gc3!=gc2);
     }

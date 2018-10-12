@@ -3,7 +3,7 @@
 #include <string>
 #include <cassert>
 
-#include "GraphNode.hpp"
+#include "../../include/ugly/graph_node.hpp"
 
 using namespace ugly;
 using namespace std;

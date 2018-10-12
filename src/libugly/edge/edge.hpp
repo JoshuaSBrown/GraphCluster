@@ -50,9 +50,9 @@ namespace ugly {
       friend std::ostream& operator<<(std::ostream& os, const Edge edge); 
 
       std::string getEdgeType() const { return object_type_; }
-      static std::string getClassType() { return class_type; }
+      static std::string getClassType() { return class_type_; }
     private:
-      static const std::string class_type;
+      static const std::string class_type_;
   };
 
 }

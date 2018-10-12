@@ -36,7 +36,7 @@ namespace ugly {
     return vertex1_;
   }
 
-  int Edge::getVertex2_() const {
+  int Edge::getVertex2() const {
     if(vertex2_==constants::unassigned){
       throw runtime_error("Cannot get vertex 2 as it has not been assigned.");
     }

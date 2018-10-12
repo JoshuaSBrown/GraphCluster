@@ -14,7 +14,7 @@ namespace ugly {
 // between two vertices
   class EdgeWeighted : public Edge {
     private:
-      static const std::string class_type;
+      static const std::string class_type_;
       double weight_;
     public:
       EdgeWeighted() : weight_(1.0){

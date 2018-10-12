@@ -13,7 +13,7 @@ namespace ugly {
   // between two vertices
   class EdgeDirected : public Edge {
     public:
-      EdgeDirected() {}
+      EdgeDirected() {};
   };
 }
 #endif // GRAPH_EDGEDIRECTED_HPP
