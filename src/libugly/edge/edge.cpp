@@ -13,6 +13,8 @@ namespace ugly {
 
   const std::string Edge::class_type_ = "edge";
 
+  std::string Edge::getClassType() { return Edge::class_type_; }
+
   int Edge::getOtherVertex(int vertex) const{
     if(vertex==vertex1_) {
       if(vertex2_ == constants::unassigned){
@@ -45,6 +47,13 @@ namespace ugly {
 
   bool Edge::containsVertex(int vertex) const {
     return (vertex1_==vertex || vertex2_==vertex);
+  }
+
+  Edge& Edge::operator=(const Edge &edge){
+    vertex1_ = edge.vertex1_;
+    vertex2_ = edge.vertex2_;
+    object_type_ = edge.object_type_;
+    return *this;
   }
 
   bool Edge::operator==(const Edge edge) const{
