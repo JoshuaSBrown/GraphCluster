@@ -18,7 +18,7 @@ int main(){
     { 
         EdgeUndirected edgeundirected(2,3);
     }
-/*
+
     cout << "Testing: operator << " << endl;
     {
         EdgeUndirected edgeundirected(2,3);
@@ -86,6 +86,6 @@ int main(){
         unordered_map<int,EdgeUndirected> e_map;
         EdgeUndirected edgeundirected(1,32);
         e_map[2] = edgeundirected;
-    }*/
+    }
   return 0;
 }

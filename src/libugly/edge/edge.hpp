@@ -28,6 +28,13 @@ namespace ugly {
         vertex1_(vertex1), 
         vertex2_(vertex2){};
 
+
+      Edge(const Edge &edge){
+        object_type_ = "edge";
+        vertex1_ = edge.vertex1_;
+        vertex2_ = edge.vertex2_;
+      }
+
       virtual ~Edge() {};
 
       int getOtherVertex(int vertex) const;
@@ -35,6 +42,8 @@ namespace ugly {
       int getVertex2(void) const;
 
       bool containsVertex(int vertex) const;
+
+      Edge& operator=(const Edge &edge);
 
       bool operator==(const Edge edge) const;
       bool operator!=(const Edge edge) const;
@@ -50,7 +59,7 @@ namespace ugly {
       friend std::ostream& operator<<(std::ostream& os, const Edge edge); 
 
       std::string getEdgeType() const { return object_type_; }
-      static std::string getClassType() { return class_type_; }
+      static std::string getClassType();
     private:
       static const std::string class_type_;
   };

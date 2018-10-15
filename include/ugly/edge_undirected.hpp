@@ -1,6 +1,6 @@
 
-#ifndef GRAPH_EDGEUNDIRECTED_HPP
-#define GRAPH_EDGEUNDIRECTED_HPP
+#ifndef UGLY_EDGEUNDIRECTED_HPP
+#define UGLY_EDGEUNDIRECTED_HPP
 
 #include <iostream>
 #include <vector>
@@ -15,8 +15,27 @@ namespace ugly {
   // between two vertices
   class EdgeUndirected : public Edge {
     public:
+      EdgeUndirected() {};
       EdgeUndirected(int vertex1, int vertex2);
+      EdgeUndirected(const EdgeUndirected &edgeundirected);
+
+      EdgeUndirected& operator=(const EdgeUndirected &edgeundirected);
+      static std::string getClassType();
+    private:
+      static const std::string class_type_;
   };
 
 }
-#endif // GRAPH_UNEDGEDIRECTED_HPP
+
+namespace std{
+  template<>
+    class hash<ugly::EdgeUndirected>{
+      public:
+        size_t operator()(const ugly::EdgeUndirected &edgeundirected) const
+        {
+          return hash<int>()(edgeundirected.getVertex1())^hash<int>()(edgeundirected.getVertex2());
+        }
+    };
+}
+
+#endif // UGLY_UNEDGEDIRECTED_HPP
