@@ -36,25 +36,16 @@ namespace ugly {
     class GraphNode {
 
       private: 
-        int id;
         std::tuple<Ts...> tp;
 
       public:
-        explicit GraphNode(int ID,Ts... ts) {
-          id = ID;
+        GraphNode() {};
+
+        explicit GraphNode(Ts... ts) {
           tp = std::tuple<Ts...>(ts...);          
         }
 
-        int getId(void) { return id; }
-
-        bool operator!=(const GraphNode<Ts...>& GN) const { return this->tp!=GN.tp; }
-        bool operator==(const GraphNode<Ts...>& GN) const { return this->tp==GN.tp; }
-
-        void test(void){
-          for_each_in_tuple(tp,[](const auto &x) { std::cout << x << std::endl; });
-        }
-
-        std::string str(void){
+        std::string getLabel() const{
           std::string result = "";
           for_each_in_tuple(tp,[&](const auto &x) { 
               std::stringstream ss;
@@ -62,6 +53,20 @@ namespace ugly {
               ss >> result;
               });
           return result;
+        }
+
+        GraphNode(const GraphNode& GN) : tp(GN.tp) {};
+
+        GraphNode<Ts...>& operator=(const GraphNode<Ts...> &GN){
+          this->tp = GN.tp;
+          return *this;
+        }
+      
+        bool operator!=(const GraphNode<Ts...>& GN) const { return this->tp!=GN.tp; }
+        bool operator==(const GraphNode<Ts...>& GN) const { return this->tp==GN.tp; }
+
+        void test(void){
+          for_each_in_tuple(tp,[](const auto &x) { std::cout << x << std::endl; });
         }
 
         bool operator<(const GraphNode<Ts...>& GN) const{

@@ -4,6 +4,7 @@
 #include <cassert>
 #include <list>
 #include <vector>
+#include <map>
 
 #include "../../include/ugly/graph.hpp"
 #include "../../include/ugly/graph_node.hpp"
@@ -16,19 +17,22 @@ int main(void){
 
     cout << "Testing: Constructor " << endl;
     {
-        GraphNode<string> GN0(1,"One");
-        GraphNode<string> GN1(2,"Two");
-        GraphNode<string> GN2(3,"One");
+        GraphNode<string> GN0("B");
+        GraphNode<string> GN1("C");
+        GraphNode<string> GN2("A");
 
         Edge ed1(1,2);
         Edge ed2(2,3);
 
         list<Edge> eds = { ed1, ed2 };        
     
-        vector<GraphNode<string>> nds = { GN0, GN1, GN2 };
-        
+        map<int,GraphNode<string>> nds;
+        nds[1]=GN0;
+        nds[2]=GN1;
+        nds[3]=GN2;
         Graph<string> gc(eds,nds);
-        cout << gc.getLabel() << endl;
+        assert(gc.getLabel()=="A,B,C,");
+        
     }
 
     cout << "Testing: == & != " << endl;
@@ -42,11 +46,11 @@ int main(void){
         //     |    |
         //    4c -- 3c
         //     
-        GraphNode<string> GN0(1,"C");
-        GraphNode<string> GN1(2,"C");
-        GraphNode<string> GN2(3,"C");
-        GraphNode<string> GN3(4,"C");
-        GraphNode<string> GN4(5,"C");
+        GraphNode<string> GN0("C");
+        GraphNode<string> GN1("C");
+        GraphNode<string> GN2("C");
+        GraphNode<string> GN3("C");
+        GraphNode<string> GN4("C");
 
         Edge ed1(1,2);
         Edge ed2(2,3);
@@ -56,15 +60,19 @@ int main(void){
 
         list<Edge> eds = { ed1, ed2, ed3, ed4, ed5 };        
 
-        vector<GraphNode<string>> nds = { GN0, GN1, GN2, GN3, GN4 };
+        map<int,GraphNode<string>> nds;
+        nds[1]= GN0;
+        nds[2]= GN1;
+        nds[3]= GN2;
+        nds[4]= GN3;
+        nds[5]= GN4;
 
         Graph<string> gc(eds,nds);
-        cout << gc.getLabel() << endl;
+        assert( gc.getLabel()=="C,C,C,C,C,");
 
         Graph<string> gc2(eds,nds);
 
         assert(gc==gc2);
-
         //
         //      -1c-
         //     |    |
@@ -72,9 +80,17 @@ int main(void){
         //     |    |
         //    4c -- 3c
         //     
-        GraphNode<string> GN5(5,"H");
-        vector<GraphNode<string>> nds2 = { GN0, GN1, GN2, GN3, GN5 };
+        GraphNode<string> GN5("H");
+        map<int,GraphNode<string>> nds2;
+        nds2[1]= GN0;
+        nds2[2]= GN1;
+        nds2[3]= GN2;
+        nds2[4]= GN3;
+        nds2[5]= GN5;
+
+
         Graph<string> gc3(eds,nds2);
+        assert( gc3.getLabel()=="C,C,C,C,H,");
 
         assert(gc3!=gc2);
     }
