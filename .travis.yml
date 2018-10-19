@@ -8,7 +8,7 @@ matrix:
   include:
     - os: linux
       compiler:
-        - clang
+        - clang-5.0
       env:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
 
@@ -25,10 +25,7 @@ matrix:
 
 before_script:
   - sudo apt-get install build-essential
-  - sudo apt-get inslall mlocate
   - eval "${MATRIX_EVAL}"
-  - locate clang
-  - locate gcc
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
