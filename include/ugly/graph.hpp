@@ -10,6 +10,7 @@
 #include <vector>
 #include <list>
 #include <algorithm>
+#include <memory>
 
 #include "../../src/libugly/edge/edge.hpp"
 #include "graph_node.hpp"
@@ -25,8 +26,8 @@ namespace ugly {
       void calculateLabel_();
     public:
       Graph() {};
-      Graph(std::list<Edge> connections, std::map<int,GraphNode<Ts>...> nodes); 
-      std::vector<Edge> getEdgesConnectedToVertex(int vertex);
+      Graph(std::list<std::shared_ptr<Edge>> connections, std::map<int,GraphNode<Ts>...> nodes); 
+      std::vector<std::shared_ptr<Edge>> getEdgesConnectedToVertex(int vertex);
       std::string getLabel();
       
       bool operator==(const Graph<Ts...>& graph) const { return label_==graph.label_;}
@@ -46,21 +47,21 @@ namespace ugly {
     }
 
   template<typename... Ts>
-  Graph<Ts...>::Graph(std::list<Edge> connections, std::map<int,GraphNode<Ts>...> nodes){
+  Graph<Ts...>::Graph(std::list<std::shared_ptr<Edge>> connections, std::map<int,GraphNode<Ts>...> nodes){
     for(auto item : nodes ) {
       nodes_[item.first] = item.second;
     }
     for( auto edge : connections ){
-      neighboring_vertices_[edge.getVertex1()].insert(edge.getVertex2());
+      neighboring_vertices_[edge->getVertex1()].insert(edge->getVertex2());
     }
     calculateLabel_();
   }
 
   template<typename... Ts>
-  std::vector<Edge> Graph<Ts...>::getEdgesConnectedToVertex(int vertex){
-    std::vector<Edge> neighbor_edges;
+  std::vector<std::shared_ptr<Edge>> Graph<Ts...>::getEdgesConnectedToVertex(int vertex){
+    std::vector<std::shared_ptr<Edge>> neighbor_edges;
     for( auto neighboring_vertex : neighboring_vertices_[vertex]){
-      Edge edge(vertex,neighboring_vertex);
+      std::shared_ptr<Edge> edge(new Edge(vertex,neighboring_vertex));
       neighbor_edges.push_back(edge);
     }
     return neighbor_edges;

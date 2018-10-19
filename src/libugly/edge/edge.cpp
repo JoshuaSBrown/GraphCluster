@@ -11,9 +11,9 @@ using namespace std;
 
 namespace ugly {
 
-  const std::string Edge::class_type_ = "edge";
+  const constants::EdgeType Edge::class_type_ = constants::EdgeType::edge;
 
-  std::string Edge::getClassType() { return Edge::class_type_; }
+  constants::EdgeType Edge::getClassType() { return Edge::class_type_; }
 
   int Edge::getOtherVertex(int vertex) const{
     if(vertex==vertex1_) {
@@ -53,36 +53,37 @@ namespace ugly {
     vertex1_ = edge.vertex1_;
     vertex2_ = edge.vertex2_;
     object_type_ = edge.object_type_;
+    edge_directed_ = edge.edge_directed_;
     return *this;
   }
 
-  bool Edge::operator==(const Edge edge) const{
+  bool Edge::operator==(const Edge & edge) const{
     if(vertex1_==edge.vertex1_ && vertex2_==edge.vertex2_) return true; 
     if(vertex2_==edge.vertex1_ && vertex2_==edge.vertex2_) return true; 
     return false;
   }
 
-  bool Edge::operator!=(const Edge edge) const{
+  bool Edge::operator!=(const Edge& edge) const{
     return !(*this==edge);
   }
 
-  bool Edge::operator<(const Edge edge) const{
+  bool Edge::operator<(const Edge& edge) const{
     if(vertex1_<edge.vertex1_) return true;
     if(vertex1_>edge.vertex1_) return false;
     if(vertex2_<edge.vertex2_) return true;
     return false;
   }
 
-  bool Edge::operator<=(const Edge edge) const{
+  bool Edge::operator<=(const Edge& edge) const{
     return (*this<edge || *this==edge);
   }
 
-  bool Edge::operator>(const Edge edge) const{
+  bool Edge::operator>(const Edge& edge) const{
     return !(*this<=edge);
   }
 
 
-  bool Edge::operator>=(const Edge edge) const{
+  bool Edge::operator>=(const Edge& edge) const{
     return !(*this<edge);   
   }
 

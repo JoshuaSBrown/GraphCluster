@@ -7,18 +7,18 @@
 #include <cassert>
 #include <utility>
 
-#include "edge.hpp"
+#include "../../src/libugly/edge/edge.hpp"
 
 namespace ugly {
 // Composed of two integers describing a link
 // between two vertices
   class EdgeWeighted : public Edge {
     private:
-      static const std::string class_type_;
+      static const constants::EdgeType class_type_;
       double weight_;
     public:
       EdgeWeighted() : weight_(1.0){
-        object_type_ = "edgeweighted";
+        object_type_ = constants::EdgeType::weighted;
       };
 
       EdgeWeighted(int vertex1, int vertex2) : 
@@ -29,8 +29,16 @@ namespace ugly {
         Edge(vertex1,vertex2),
         weight_(weight){};
 
+      EdgeWeighted(const EdgeWeighted &edgeweighted) : Edge(edgeweighted) {
+        weight_ = edgeweighted.weight_ ;
+      }
+
+      EdgeWeighted& operator=(const EdgeWeighted &EdgeWeighted);
+
       void setWeight(double weight){ weight_ = weight; }
       double getWeight() const { return weight_; }
+
+      static constants::EdgeType getClassType();
 
   };
 

@@ -7,6 +7,14 @@
 namespace ugly {
   namespace constants {
     const int unassigned = std::numeric_limits<int>::min();
+
+    enum EdgeType {
+      edge,
+      undirected,
+      weighted,
+      directed
+    };
+
   }
 }
 

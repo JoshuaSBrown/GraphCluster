@@ -1,5 +1,5 @@
 
-foreach(PROG test_edge_undirected test_graph test_graph_node )
+foreach(PROG test_edge_undirected test_edge_weighted test_graph test_graph_node test_graphvisitor test_graphvisitor_depth_first)
   file(GLOB ${PROG}_SOURCES ${PROG}.cpp)
   add_executable(unit_${PROG} ${${PROG}_SOURCES})
   target_link_libraries(unit_${PROG} ugly)

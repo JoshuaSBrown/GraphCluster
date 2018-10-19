@@ -15,14 +15,16 @@ namespace ugly {
   // between two vertices
   class EdgeUndirected : public Edge {
     public:
-      EdgeUndirected() {};
-      EdgeUndirected(int vertex1, int vertex2);
-      EdgeUndirected(const EdgeUndirected &edgeundirected);
+      EdgeUndirected() : Edge(false) {
+        object_type_ = constants::EdgeType::undirected;
+      }
 
-      EdgeUndirected& operator=(const EdgeUndirected &edgeundirected);
-      static std::string getClassType();
+      EdgeUndirected(int vertex1, int vertex2) : Edge(vertex1,vertex2) {
+        object_type_ = constants::EdgeType::undirected;
+      }
+      static constants::EdgeType getClassType();
     private:
-      static const std::string class_type_;
+      static const constants::EdgeType class_type_;
   };
 
 }

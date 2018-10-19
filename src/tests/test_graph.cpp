@@ -21,10 +21,10 @@ int main(void){
         GraphNode<string> GN1("C");
         GraphNode<string> GN2("A");
 
-        Edge ed1(1,2);
-        Edge ed2(2,3);
+        shared_ptr<Edge> ed1( new Edge(1,2));
+        shared_ptr<Edge> ed2( new Edge(2,3));
 
-        list<Edge> eds = { ed1, ed2 };        
+        list<shared_ptr<Edge>> eds = { ed1, ed2 };        
     
         map<int,GraphNode<string>> nds;
         nds[1]=GN0;
@@ -52,13 +52,13 @@ int main(void){
         GraphNode<string> GN3("C");
         GraphNode<string> GN4("C");
 
-        Edge ed1(1,2);
-        Edge ed2(2,3);
-        Edge ed3(3,4);
-        Edge ed4(4,5);
-        Edge ed5(5,1);
+        shared_ptr<Edge> ed1( new Edge(1,2));
+        shared_ptr<Edge> ed2( new Edge(2,3));
+        shared_ptr<Edge> ed3( new Edge(3,4));
+        shared_ptr<Edge> ed4( new Edge(4,5));
+        shared_ptr<Edge> ed5( new Edge(5,1));
 
-        list<Edge> eds = { ed1, ed2, ed3, ed4, ed5 };        
+        list<shared_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
 
         map<int,GraphNode<string>> nds;
         nds[1]= GN0;
