@@ -7,12 +7,6 @@ dist: trusty
 matrix:
   include:
     - os: linux
-      compiler:
-        - clang-5.0
-      env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
-
-    - os: linux
       addons:
         apt:
           sources:
@@ -22,6 +16,17 @@ matrix:
             - gcc-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+            - gcc-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
 
 before_script:
   - sudo apt-get install build-essential
