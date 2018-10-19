@@ -3,7 +3,7 @@ sudo: required
 language: cpp
 
 compiler:
-  - gcc
+  - g++
   - clang
 
 install:
