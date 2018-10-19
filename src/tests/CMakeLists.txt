@@ -3,7 +3,8 @@ foreach(PROG
     test_edge_directed
     test_edge_undirected 
     test_edge_weighted 
-    test_graph test_graph_node 
+    test_graph 
+    test_graph_node 
     test_graphvisitor 
     test_graphvisitor_depth_first)
   file(GLOB ${PROG}_SOURCES ${PROG}.cpp)
