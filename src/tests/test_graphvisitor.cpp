@@ -106,37 +106,5 @@ int main(void){
 
     }
 
-/*
-    cout << "Testing: allEdgesExplored" << endl;
-    {
-      shared_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
-      vector<shared_ptr<Edge>> eds = { ed1, ed2 };        
-      GraphVisitorDepthFirst graphvisitordepthfirst;
-      graphvisitordepthfirst.addEdges(eds);
-      graphvisitordepthfirst.setStartingVertex(1);
-
-      bool complete = graphvisitordepthfirst.allEdgesExplored();
-      assert(complete==false);
-      graphvisitordepthfirst.exploreEdge(ed1);
-      complete = graphvisitordepthfirst.allEdgesExplored();
-      assert(complete==false);
-      graphvisitordepthfirst.exploreEdge(ed2);
-      complete = graphvisitordepthfirst.allEdgesExplored();
-      assert(complete==true);
-    }
-    cout << "Testing: getNextEdge" << endl;
-    {
-      shared_ptr<EdgeWeighted> ed1( new EdgeWeighted(1,2));
-      shared_ptr<EdgeWeighted> ed2( new EdgeWeighted(2,3));
-      vector<shared_ptr<Edge>> eds = { ed1, ed2 };        
-      GraphVisitorDepthFirst graphvisitordepthfirst;
-      graphvisitordepthfirst.addEdges(eds);
-      graphvisitordepthfirst.setStartingVertex(1);
-
-      auto ed = graphvisitordepthfirst.getNextEdge<EdgeWeighted>();
-
-    }
-*/
     return 0;
 }
