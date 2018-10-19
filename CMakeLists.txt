@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.4)
+cmake_minimum_required (VERSION 3.2)
 
 enable_language(CXX)
 
@@ -9,12 +9,17 @@ project (ugly)
 ########################################################
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra -pedantic -std=c++14")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra -pedantic")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 ########################################################
 # Basic system tests (standard libraries, headers etc) #
 ########################################################
+set(CMAKE_REQUIRED_INCLUDES "/usr/local/include")
 
 include(CheckIncludeFile)
 foreach(HEADER assert.h math.h stdio.h stdlib.h string.h)

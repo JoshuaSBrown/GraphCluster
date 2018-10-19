@@ -19,6 +19,17 @@ int main(){
         EdgeUndirected edgeundirected(2,3);
     }
 
+    cout << "Testing: getClassType" << endl;
+    {
+        assert(EdgeUndirected::getClassType()==constants::EdgeType::undirected);
+    }
+
+    cout << "Testing: getEdgeType" << endl;
+    {
+        EdgeUndirected edgeundirected;
+        assert(edgeundirected.getEdgeType()==constants::EdgeType::undirected);
+    }
+    
     cout << "Testing: operator << " << endl;
     {
         EdgeUndirected edgeundirected(2,3);
@@ -48,6 +59,11 @@ int main(){
         EdgeUndirected edgeundirected(2,3);
         assert(edgeundirected.getVertex1()==2);
         assert(edgeundirected.getVertex2()==3);
+        // Does not conserve the location, always places the smaller vertex id
+        // at vertex1 
+        EdgeUndirected edgeundirected2(2,3);
+        assert(edgeundirected2.getVertex1()==2);
+        assert(edgeundirected2.getVertex2()==3);
     }
 
     cout << "Testing: < " << endl;

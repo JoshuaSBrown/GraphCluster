@@ -19,9 +19,8 @@ namespace ugly {
         object_type_ = constants::EdgeType::undirected;
       }
 
-      EdgeUndirected(int vertex1, int vertex2) : Edge(vertex1,vertex2) {
-        object_type_ = constants::EdgeType::undirected;
-      }
+      EdgeUndirected(int vertex1, int vertex2); 
+
       static constants::EdgeType getClassType();
     private:
       static const constants::EdgeType class_type_;
