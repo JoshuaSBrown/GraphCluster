@@ -4,21 +4,30 @@ language: cpp
 
 dist: trusty
 
-compiler:
-  - gcc
-  - clang
+matrix:
+  include:
+    - os: linux
+      compiler:
+       - clang
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - sourceline: "ppa:beineri/opt-qt-5.10.1-trusty"
-    packages:
-      - gcc-7
-      - g++-7
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: "ppa:beineri/opt-qt-5.10.1-trusty"
+              packages:
+                - gcc-7
+                - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_script:
   - sudo apt-get install build-essential
+  - eval "${MATRIX_EVAL}"
+
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
