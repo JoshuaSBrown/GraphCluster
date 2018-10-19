@@ -26,9 +26,8 @@ matrix:
 before_script:
   - sudo apt-get install build-essential
   - eval "${MATRIX_EVAL}"
-  - ls /usr/local/
-  - ls /usr/bin/
-  - ls /usr/local/bin/
+  - locate clang
+  - locate gcc
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
