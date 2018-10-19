@@ -9,12 +9,13 @@ project (ugly)
 ########################################################
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra -pedantic -std=c++14")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra -pedantic -std=c++11")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 ########################################################
 # Basic system tests (standard libraries, headers etc) #
 ########################################################
+set(CMAKE_REQUIRED_INCLUDES "/usr/local/include")
 
 include(CheckIncludeFile)
 foreach(HEADER assert.h math.h stdio.h stdlib.h string.h)
