@@ -8,7 +8,6 @@ compiler:
 
 before_script:
   - sudo apt-get install build-essential
-
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
@@ -26,4 +25,4 @@ install:
 script:
   - mkdir build
   - cd build
-  - ${DEPS_DIR}/cmake/bin/cmake .. && make && make test
+  - ${DEPS_DIR}/cmake/bin/cmake -DENABLE_TESTING=ON .. && make && make test
