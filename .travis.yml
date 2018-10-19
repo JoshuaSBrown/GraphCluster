@@ -3,13 +3,14 @@ sudo: required
 language: cpp
 
 compiler:
-  - g++
+  - gcc
   - clang
 
 before_script:
   - sudo apt-get install build-essential
 
 install:
+  - make get-deps
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
   
