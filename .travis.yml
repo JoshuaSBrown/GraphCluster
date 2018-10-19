@@ -2,9 +2,20 @@ sudo: required
 
 language: cpp
 
+dist: trusty
+
 compiler:
-  - gcc-5.4
+  - gcc
   - clang
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - sourceline: "ppa:beineri/opt-qt-5.10.1-trusty"
+    packages:
+      - gcc-7
+      - g++-7
 
 before_script:
   - sudo apt-get install build-essential
