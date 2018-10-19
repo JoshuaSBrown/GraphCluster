@@ -2,10 +2,35 @@ sudo: required
 
 language: cpp
 
-compiler:
-  - gcc
-  - clang
+dist: trusty
 
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+            - gcc-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+            - gcc-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+
+before_script:
+  - sudo apt-get install build-essential
+  - eval "${MATRIX_EVAL}"
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
@@ -23,4 +48,4 @@ install:
 script:
   - mkdir build
   - cd build
-  - ${DEPS_DIR}/cmake/bin/cmake .. && make && make test
+  - ${DEPS_DIR}/cmake/bin/cmake -DENABLE_TESTING=ON .. && make && make test
