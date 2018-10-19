@@ -8,19 +8,8 @@ using namespace std;
 namespace ugly {
 
   GraphVisitorDepthFirst::GraphVisitorDepthFirst(){
-    allowed_edge_types_ = list<constants::EdgeType>(constants::EdgeType::weighted);
-  }
-
-  void GraphVisitorDepthFirst::exploreEdge_(Edge& edge){
- 
-    auto distance = getDistanceFromStartingVertexToEdge_(edge);
-    explored_vertices_[getUnexploredVertex(edge)]=distance;
-
-
-  }
-
-  void GraphVisitorDepthFirst::addEdge_(Edge& ){
-    return;
+    allowed_edge_types_.clear();
+    allowed_edge_types_.push_back(constants::EdgeType::weighted);
   }
 
   void GraphVisitorDepthFirst::addEdges(vector<reference_wrapper<Edge>> edges){
@@ -28,7 +17,7 @@ namespace ugly {
       addEdge(edge);
     }
   }
-/*
+
   double GraphVisitorDepthFirst::getDistanceOfVertex(int vertex){
     if(explored_vertices_.count(vertex)){
       return explored_vertices_[vertex];
@@ -36,54 +25,54 @@ namespace ugly {
     throw invalid_argument("Cannot get distance to vertex as the vertex has not"
         " yet been explored.");
   }
-*/
+
   /****************************************************************************
    * Private Internal Methods
    ****************************************************************************/
-/*
-  shared_ptr<Edge> GraphVisitorDepthFirst::getEdgeShortestDistance_(){
+
+  void GraphVisitorDepthFirst::addEdge_(Edge& ){
+    return;
+  }
+
+  void GraphVisitorDepthFirst::exploreEdge_(Edge& edge){
+    auto distance = getDistanceFromStartingVertexToEdge_(edge);
+    explored_vertices_[getUnexploredVertex(edge)]=distance;
+  }
+
+  Edge& GraphVisitorDepthFirst::getEdgeShortestDistance_(){
     double distance;
     bool edge_uninitialized = true;
-    shared_ptr<EdgeWeighted> edge_shortest_distance_away;
-    cout << "Getting edges to explore" << endl;
-    auto edges = getEdgesToExplore_();
-    auto weighted_edges_to_explore = castEdgesToType_<EdgeWeighted>(edges);
-    cout << "Cycling edges size " << weighted_edges_to_explore.size() << endl;
-    for(auto weighted_edge : weighted_edges_to_explore ){
-      cout << "printing weighted edge" << endl;
-      cout << *weighted_edge << endl;
-      cout << "verticesHave been explored" << endl;
-      if(!verticesHaveBeenExplored(weighted_edge)){
-        std::cout << "getting distance from start" << std::endl; 
-        auto edge_distance = getDistanceFromStartingVertexToEdge_(weighted_edge);
+    auto edge_shortest_distance_away = edges_to_explore_.begin();
+
+    for(auto edge_it=edges_to_explore_.begin();
+        edge_it!=edges_to_explore_.end();
+        ++edge_it ){
+
+        auto edge_distance = getDistanceFromStartingVertexToEdge_(*edge_it);
         if(edge_uninitialized){
           distance = edge_distance;
-          edge_shortest_distance_away = weighted_edge;
-          edge_uninitialized=true;
+          edge_shortest_distance_away = edge_it;
+          edge_uninitialized=false;
         }else if(edge_distance<distance){
           distance = edge_distance;
-          edge_shortest_distance_away = weighted_edge;
+          edge_shortest_distance_away = edge_it;
         }
-      }
-      cout << "end of loop" << endl;
     }
     if(edge_uninitialized){
       throw runtime_error("Cannot grab edge shortest distance away because "
           "there are no more edges to be explored");
     }
    
-    std::cout << "Edge shortest distance away" << std::endl;
-    std::cout << *edge_shortest_distance_away << std::endl; 
-    return edge_shortest_distance_away;
+    return *edge_shortest_distance_away;
   }
 
-  shared_ptr<Edge> GraphVisitorDepthFirst::getNextEdge_(){
-    std::cout << "Calling getNextEdge_ from GraphVisitorDepthFirst" << std::endl;
+  Edge& GraphVisitorDepthFirst::getNextEdge_(){
     return GraphVisitorDepthFirst::getEdgeShortestDistance_();
   }
-*/
 
-  double GraphVisitorDepthFirst::getDistanceFromStartingVertexToEdge_(const Edge& edge){
+  double 
+    GraphVisitorDepthFirst::getDistanceFromStartingVertexToEdge_(
+        const Edge& edge){
 
     auto exploredVertex = getExploredVertex(edge);
     auto edge_distance = explored_vertices_[exploredVertex];

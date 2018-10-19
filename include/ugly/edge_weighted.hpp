@@ -17,17 +17,24 @@ namespace ugly {
       static const constants::EdgeType class_type_;
       double weight_;
     public:
-      EdgeWeighted() : weight_(1.0){
+      EdgeWeighted() : weight_(1.0) {
         object_type_ = constants::EdgeType::weighted;
-      };
+        edge_directed_ = false;
+      }
 
       EdgeWeighted(int vertex1, int vertex2) : 
         Edge(vertex1,vertex2), 
-        weight_(1.0){};
+        weight_(1.0) {
+          object_type_ = constants::EdgeType::weighted;
+          edge_directed_=false;
+        }
 
       EdgeWeighted(int vertex1, int vertex2,double weight) : 
         Edge(vertex1,vertex2),
-        weight_(weight){};
+        weight_(weight){
+          object_type_ = constants::EdgeType::weighted;
+          edge_directed_ = false;
+        }
 
       EdgeWeighted(const EdgeWeighted &edgeweighted) : Edge(edgeweighted) {
         weight_ = edgeweighted.weight_ ;

@@ -19,7 +19,9 @@ namespace ugly {
 
   class GraphVisitor{
     public:
-      GraphVisitor() : starting_vertex_set_(false) {};
+      GraphVisitor() : starting_vertex_set_(false) {
+        allowed_edge_types_ = {constants::EdgeType::edge };
+      }
       void setStartingVertex(int vertex);
 
       bool exploredVertex(int vertex);
@@ -50,7 +52,7 @@ namespace ugly {
       bool verticesHaveBeenExplored(const Edge &edge) const;
       int getUnexploredVertex(const Edge &edge) const;
       int getExploredVertex(const Edge &edge) const;
-/*      bool allEdgesExplored() const { return edges_to_explore_.size()==0 ;}*/
+      bool allEdgesExplored() const { return edges_to_explore_.size()==0 ;}
     protected:
       // First int is the vertex, the double is the distance
       std::map<int,double> explored_vertices_;
@@ -59,7 +61,7 @@ namespace ugly {
       std::list<constants::EdgeType> allowed_edge_types_;
       int starting_vertex_;
       bool starting_vertex_set_;
-
+      bool canAddEdge_(const Edge& edge) const;
       virtual void addEdge_(Edge& edge);
 
       virtual void exploreEdge_(Edge& edge);
@@ -67,63 +69,27 @@ namespace ugly {
       bool potentialEdgeKnown_(const Edge & edge) const;
       
       bool edgeTypeAllowed_(const Edge & edge) const;
-      /*
+      
       template<typename T>
       std::vector<T&> getExploredEdges_();
 
       template<typename T>
       std::vector<T&> castEdgesToType_(std::vector<Edge&> edges);
 
-      virtual std::vector<Edge&> getEdgesToExplore_();
-
-*/
       virtual Edge& getNextEdge_();
   };
 
   template<typename T>
   T& GraphVisitor::getNextEdge() {
-//    std::cout << "Calling getNextEdge from graphVisitor " << std::endl;
-    auto edge = getNextEdge_();
-//    std::cout << "class type " << T::getClassType() << std::endl;
-//    std::cout << "object type " << edge.getEdgeType() << std::endl;
-    if(T::getClassType()=="Edge"){
-      return dynamic_cast<T&>(edge);
+    Edge& edge = getNextEdge_();
+    if(T::getClassType()==constants::EdgeType::edge){
+      return static_cast<T&>(edge);
     }
     if(T::getClassType()==edge.getEdgeType()){
-      return dynamic_cast<T&>(edge);
+      return static_cast<T&>(edge);
     }
     throw std::runtime_error("Error cannot retrive edge of the type sepcified.");
   }
-/*
-  template<typename T>
-  std::vector<T&> GraphVisitor::getExploredEdges_(){
-    std::vector<T&> convertedEdges;
-    std::cout << "Number of edges " << explored_edges_.size() << std::endl;
-    for( auto edge : explored_edges_ ){
-      if(T::getClassType()==edge.getEdgeType()){
-        convertedEdges.push_back(std::dynamic_cast<T>(edge));
-      } else {
-        throw std::runtime_error("edge cannot be converted");
-      }
-    } 
-    return convertedEdges;
-  }
-
-  template<typename T>
-  std::vector<T&> GraphVisitor::castEdgesToType_(std::vector<Edge&> edges){
-    std::vector<T&> convertedEdges;
-    for( auto edge : edges ){
-      if(T::getClassType()==edge.getEdgeType()){
-        std::cout << "Class Type " << T::getClassType() << std::endl;
-        std::cout << "Object Type " << edge.getEdgeType() << std::endl;
-        convertedEdges.push_back(std::dynamic_cast<T>(edge));
-      } else {
-        throw std::runtime_error("edge cannot be converted");
-      }
-    } 
-    return convertedEdges;
-  }
-*/
 }
 
 #endif // UGLY_GRAPHVISITOR_HPP

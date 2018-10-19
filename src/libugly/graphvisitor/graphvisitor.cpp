@@ -6,6 +6,11 @@
 using namespace std;
 
 namespace ugly {
+
+  /****************************************************************************
+   * External public facing methods
+   ****************************************************************************/
+
   void GraphVisitor::setStartingVertex(int vertex){
 
     starting_vertex_ = vertex;
@@ -21,11 +26,16 @@ namespace ugly {
     for(auto edge_temp : edges_to_explore_ ){
       if(edge_temp==edge) return false;
     } 
-    if(explored_edges_.count(edge)) return false;
-    if(explored_vertices_.count(edge.getVertex1())) return true; 
-    cout << "edge is directional? " << edge.directional() << endl;
+    if(explored_edges_.count(edge)){
+      return false;
+    }
+    if(explored_vertices_.count(edge.getVertex1())) {
+      return true; 
+    }
     if(!edge.directional()){
-      if(explored_vertices_.count(edge.getVertex2())) return true; 
+      if(explored_vertices_.count(edge.getVertex2())){ 
+        return true; 
+      }
     }
     return false;
   }
@@ -53,6 +63,7 @@ namespace ugly {
   }
 
   void GraphVisitor::addEdge(Edge & edge){
+
     if(explored_edges_.count(edge)){
       throw invalid_argument("Cannot add edge it has already been explored");
     }
@@ -65,9 +76,15 @@ namespace ugly {
       throw runtime_error("Cannot add edges before specifying the starting "
           "vertex.");
     }
-    if(!edgeCanBeAdded(edge)){
+    if(!canAddEdge_(edge)){
       throw runtime_error("Cannot add edge as non of the vertices in the edge "
-          "have been explored.");
+          "have been explored. You can only add edges to the visitor that are "
+          "connected to a vertex that has been explored. E.g. Say I set my "
+          "starting vertex to 0 and want to add edges 0-1 and 1-2, I cannot do "
+          "this because none of the vertices in 1-2 have been explored. If the,"
+          " edge is a directed edge the source is always vertex 1 thus in the "
+          "above case I could still not add vertex 0-1 as it is directional "
+          "from vertex 0 going to vertex 1");
     }
     if(!edgeTypeAllowed_(edge)){
       throw runtime_error("Cannot add edge of this time to the visitor it is "
@@ -77,33 +94,9 @@ namespace ugly {
     edges_to_explore_.push_back(edge);
   }
 
-  void GraphVisitor::addEdge_(Edge&){
-    throw runtime_error("Cannot call addEdge from base class must define it in "
-        "the derived class.");
-  }
   void GraphVisitor::addEdges(vector<reference_wrapper<Edge>>){
     throw runtime_error("Cannot call addEdges from base class must define it in"
         " the derived class.");
-  }
-
-  bool GraphVisitor::verticesHaveBeenExplored(const Edge& edge) const {
-    if(explored_vertices_.count(edge.getVertex1()) && 
-       explored_vertices_.count(edge.getVertex2())){ 
-      return true;
-    }
-    return false;
-  }
-
-  bool GraphVisitor::edgeTypeAllowed_(const Edge & edge) const {
-    for( auto edge_type : allowed_edge_types_){
-      if(edge.getEdgeType()==edge_type) return true;
-    }
-    return false;
-  }
-
-  bool GraphVisitor::potentialEdgeKnown_(const Edge & edge) const {
-    auto it = find(edges_to_explore_.begin(),edges_to_explore_.end(),edge);
-    return it!=edges_to_explore_.end();
   }
 
   int GraphVisitor::getUnexploredVertex(const Edge& edge) const {
@@ -125,14 +118,51 @@ namespace ugly {
     return edge.getOtherVertex(getUnexploredVertex(edge));
   }
 
+  /****************************************************************************
+   * Internal private functions
+   ****************************************************************************/
+
+  void GraphVisitor::addEdge_(Edge&){
+    throw runtime_error("Cannot call addEdge from base class must define it in "
+        "the derived class.");
+  }
+
+  bool GraphVisitor::verticesHaveBeenExplored(const Edge& edge) const {
+    if(explored_vertices_.count(edge.getVertex1()) && 
+       explored_vertices_.count(edge.getVertex2())){ 
+      return true;
+    }
+    return false;
+  }
+
+  bool GraphVisitor::edgeTypeAllowed_(const Edge & edge) const {
+    for( auto edge_type : allowed_edge_types_){
+      if(edge.getEdgeType()==edge_type){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool GraphVisitor::potentialEdgeKnown_(const Edge & edge) const {
+    auto it = find(edges_to_explore_.begin(),edges_to_explore_.end(),edge);
+    return it!=edges_to_explore_.end();
+  }
+
+  bool GraphVisitor::canAddEdge_(const Edge& edge) const {
+    if(edge.directional()==true){
+      // First int is the source it must be part of the explored vertices
+      if(explored_vertices_.count(edge.getVertex1())) return true;
+      return false;
+    }else{
+      if(explored_vertices_.count(edge.getVertex1())) return true;
+      if(explored_vertices_.count(edge.getVertex2())) return true;
+    }
+    return false;
+  }
+
   Edge& GraphVisitor::getNextEdge_(){
     throw runtime_error("Cannot call getNextEdge from base class must "
         "define in the derived class.");
   }
-/*
-  vector<Edge&> GraphVisitor::getEdgesToExplore_(){
-    throw runtime_error("Cannot call getEdgesToExplore_ from base class must "
-        "define in the derived class.");
-  }
-*/
 }

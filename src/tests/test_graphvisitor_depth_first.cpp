@@ -5,6 +5,7 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <cmath>
 
 #include "../libugly/graphvisitor/graphvisitor_depth_first.hpp"
 #include "../../include/ugly/edge_weighted.hpp"
@@ -23,9 +24,9 @@ int main(void){
 
     cout << "Testing: addEdge" << endl;
     {
-      unique_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      unique_ptr<Edge> ed2( new EdgeWeighted(2,3));
-      unique_ptr<Edge> ed3( new EdgeWeighted(2,1));
+      unique_ptr<EdgeWeighted> ed1( new EdgeWeighted(1,2));
+      unique_ptr<EdgeWeighted> ed2( new EdgeWeighted(2,3));
+      unique_ptr<EdgeWeighted> ed3( new EdgeWeighted(2,1));
 
       GraphVisitorDepthFirst graphvisitordepthfirst;
       
@@ -38,6 +39,7 @@ int main(void){
       assert(throwError);
 
       graphvisitordepthfirst.setStartingVertex(1);
+      cout << "Get Edge Type " << ed1->getEdgeType() << endl;
       graphvisitordepthfirst.addEdge(*ed1);
      
       // Cannot add the same edge twice 
@@ -60,28 +62,19 @@ int main(void){
       }
       assert(throwError);
 
-      // Cannot add an edge that is directed from a souce that is not currently
-      // one of the explored vertices. This only matters in directed edges.
-      throwError=false;
-      if(ed3->directional()){
-        try{
-          graphvisitordepthfirst.addEdge(*ed3);
-        }catch(...){
-          throwError = true;
-        }
-      }
-      assert(throwError);
+      cout << "edge " << constants::EdgeType::edge << endl;
+      cout << "undirected " << constants::EdgeType::undirected << endl;
+      cout << "weighted " << constants::EdgeType::weighted << endl;
+      cout << "directed " << constants::EdgeType::directed << endl;
 
       // The depth first graph visitor only allows weighted edges 
       unique_ptr<Edge> ed4( new EdgeUndirected(4,1));
 
       throwError=false;
-      if(ed3->directional()){
-        try{
-          graphvisitordepthfirst.addEdge(*ed3);
-        }catch(...){
-          throwError = true;
-        }
+      try{
+        graphvisitordepthfirst.addEdge(*ed4);
+      }catch(...){
+        throwError = true;
       }
       assert(throwError);
 
@@ -125,134 +118,176 @@ int main(void){
       // Only allows weighted edges
       throwError=false;
       try{
-        graphvisitordepthfirst2.addEdges(eds);
+        graphvisitordepthfirst2.addEdges(eds2);
       }catch(...){
         throwError=true;
       }
       assert(throwError);
 
     }
-/*
-    cout << "Testing: verticesHaveBeenExplored" << endl;
-    {
-      shared_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
-      vector<shared_ptr<Edge>> eds = { ed1, ed2 };        
-
-      GraphVisitorDepthFirst graphvisitordepthfirst;
-      assert(graphvisitordepthfirst.verticesHaveBeenExplored(ed1)==false);
-      graphvisitordepthfirst.addEdges(eds);
-      assert(graphvisitordepthfirst.verticesHaveBeenExplored(ed1)==false);
-      assert(graphvisitordepthfirst.verticesHaveBeenExplored(ed1)==false);
-
-    }
 
     cout << "Testing: exploreEdge" << endl;
     {
-      shared_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
-      vector<shared_ptr<Edge>> eds = { ed1, ed2 };        
+      unique_ptr<Edge> ed1( new EdgeWeighted(1,2));
+      unique_ptr<Edge> ed2( new EdgeWeighted(2,3));
+      vector<reference_wrapper<Edge>> eds = { *ed1, *ed2 };        
 
       GraphVisitorDepthFirst graphvisitordepthfirst;
 
       bool throwError = false;
       try{
-        graphvisitordepthfirst.exploreEdge(ed1);
+        graphvisitordepthfirst.exploreEdge(*ed1);
       }catch(...){
         throwError = true;
       }
       assert(throwError);
 
+      graphvisitordepthfirst.setStartingVertex(2);
       graphvisitordepthfirst.addEdges(eds);
 
+      graphvisitordepthfirst.exploreEdge(*ed1);
+
+      // Should now throw an error because ed1 has now been explored
       throwError = false;
       try{
-        graphvisitordepthfirst.exploreEdge(ed1);
+        graphvisitordepthfirst.exploreEdge(*ed1);
       }catch(...){
         throwError = true;
       }
       assert(throwError);
 
-      graphvisitordepthfirst.setStartingVertex(1);
-      graphvisitordepthfirst.exploreEdge(ed1);
-      graphvisitordepthfirst.exploreEdge(ed2);
+      graphvisitordepthfirst.exploreEdge(*ed2);
+    }
+
+
+    cout << "Testing: exploreEdge" << endl;
+    {
+      unique_ptr<Edge> ed1( new Edge(1,2));
+      unique_ptr<Edge> ed2( new Edge(2,3));
+      vector<reference_wrapper<Edge>> eds = { *ed1, *ed2 };
+
+      GraphVisitor graphvisitor;
+
+      bool throwError = false;
+      try{
+        graphvisitor.exploreEdge(*ed1);
+      }catch(...){
+        throwError = true;
+      }
+      assert(throwError);
+
     }
 
     cout << "Testing: getUnexploredVertex" << endl;
     {
-      
-      shared_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
-      vector<shared_ptr<Edge>> eds = { ed1, ed2 };        
+
+      unique_ptr<Edge> ed1( new EdgeWeighted(1,2));
+      unique_ptr<Edge> ed2( new EdgeWeighted(2,3));
+      unique_ptr<Edge> ed3( new EdgeWeighted(2,4));
+      unique_ptr<Edge> ed4( new EdgeWeighted(3,4));
+      vector<reference_wrapper<Edge>> eds = { *ed1, *ed2 };
 
       GraphVisitorDepthFirst graphvisitordepthfirst;
+      graphvisitordepthfirst.setStartingVertex(2);
       graphvisitordepthfirst.addEdges(eds);
-      graphvisitordepthfirst.setStartingVertex(1);
-      
+
+      auto unexploredvertex = graphvisitordepthfirst.getUnexploredVertex(*ed1);
+      assert(unexploredvertex==1);
+
+      unexploredvertex = graphvisitordepthfirst.getUnexploredVertex(*ed3);
+      assert(unexploredvertex==4);
+
+      // Neither vertex of edge 4 is listed as explored so it will
+      // throw an error
       bool throwError = false;
       try{
-        graphvisitordepthfirst.getUnexploredVertex(ed2); 
+        graphvisitordepthfirst.getUnexploredVertex(*ed4);
       }catch(...){
         throwError = true;
       }
       assert(throwError);
-
-      auto unexploredvertex = graphvisitordepthfirst.getUnexploredVertex(ed1);
-      assert(unexploredvertex==2);
     }
 
     cout << "Testing: getExploredVertex" << endl;
     {
-      shared_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
-      vector<shared_ptr<Edge>> eds = { ed1, ed2 };        
-      
+      unique_ptr<Edge> ed1( new EdgeWeighted(1,2));
+      unique_ptr<Edge> ed2( new EdgeWeighted(2,3));
+      unique_ptr<Edge> ed3( new EdgeWeighted(4,3));
+      vector<reference_wrapper<Edge>> eds = { *ed1, *ed2 };
+
       GraphVisitorDepthFirst graphvisitordepthfirst;
+      graphvisitordepthfirst.setStartingVertex(2);
       graphvisitordepthfirst.addEdges(eds);
-      graphvisitordepthfirst.setStartingVertex(1);
 
       bool throwError = false;
       try{
-        graphvisitordepthfirst.getExploredVertex(ed2); 
+        graphvisitordepthfirst.getExploredVertex(*ed3);
       }catch(...){
         throwError = true;
       }
       assert(throwError);
 
-      auto exploredvertex = graphvisitordepthfirst.getExploredVertex(ed1);
-      assert(exploredvertex==1);
+      auto exploredvertex = graphvisitordepthfirst.getExploredVertex(*ed1);
+      assert(exploredvertex==2);
     }
 
     cout << "Testing: allEdgesExplored" << endl;
     {
-      shared_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
-      vector<shared_ptr<Edge>> eds = { ed1, ed2 };        
+      unique_ptr<Edge> ed1( new EdgeWeighted(1,2));
+      unique_ptr<Edge> ed2( new EdgeWeighted(2,3));
+      vector<reference_wrapper<Edge>> eds = { *ed1, *ed2 };        
       GraphVisitorDepthFirst graphvisitordepthfirst;
+      graphvisitordepthfirst.setStartingVertex(2);
       graphvisitordepthfirst.addEdges(eds);
-      graphvisitordepthfirst.setStartingVertex(1);
 
       bool complete = graphvisitordepthfirst.allEdgesExplored();
       assert(complete==false);
-      graphvisitordepthfirst.exploreEdge(ed1);
+      graphvisitordepthfirst.exploreEdge(*ed1);
       complete = graphvisitordepthfirst.allEdgesExplored();
       assert(complete==false);
-      graphvisitordepthfirst.exploreEdge(ed2);
+      graphvisitordepthfirst.exploreEdge(*ed2);
       complete = graphvisitordepthfirst.allEdgesExplored();
       assert(complete==true);
     }
+
+    cout << "Testing: getDistanceOfVertex" << endl;
+    {
+      unique_ptr<Edge> ed1( new EdgeWeighted(1,2));
+      unique_ptr<Edge> ed2( new EdgeWeighted(2,3,32));
+      vector<reference_wrapper<Edge>> eds = { *ed1, *ed2 };        
+      GraphVisitorDepthFirst graphvisitordepthfirst;
+      graphvisitordepthfirst.setStartingVertex(2);
+      graphvisitordepthfirst.addEdges(eds);
+
+      graphvisitordepthfirst.exploreEdge(*ed1);
+      graphvisitordepthfirst.exploreEdge(*ed2);
+
+      auto dist = graphvisitordepthfirst.getDistanceOfVertex(2);
+      assert(static_cast<int>(round(dist))==0);
+      dist = graphvisitordepthfirst.getDistanceOfVertex(1);
+      assert(static_cast<int>(round(dist))==1);
+      dist = graphvisitordepthfirst.getDistanceOfVertex(3);
+      assert(static_cast<int>(round(dist))==32);
+    }
+
+    
+    
     cout << "Testing: getNextEdge" << endl;
     {
-      shared_ptr<EdgeWeighted> ed1( new EdgeWeighted(1,2));
-      shared_ptr<EdgeWeighted> ed2( new EdgeWeighted(2,3));
-      vector<shared_ptr<Edge>> eds = { ed1, ed2 };        
+      unique_ptr<EdgeWeighted> ed1( new EdgeWeighted(1,2,0.5));
+      unique_ptr<EdgeWeighted> ed2( new EdgeWeighted(2,3,2.3));
+      vector<reference_wrapper<Edge>> eds = { *ed1, *ed2 };        
       GraphVisitorDepthFirst graphvisitordepthfirst;
+      graphvisitordepthfirst.setStartingVertex(2);
       graphvisitordepthfirst.addEdges(eds);
-      graphvisitordepthfirst.setStartingVertex(1);
 
       auto ed = graphvisitordepthfirst.getNextEdge<EdgeWeighted>();
+      assert(ed==*ed1);
 
+      graphvisitordepthfirst.exploreEdge(ed);
+      ed = graphvisitordepthfirst.getNextEdge<EdgeWeighted>();
+      assert(ed==*ed2);
     }
-*/
+
     return 0;
 }
