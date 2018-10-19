@@ -12,6 +12,8 @@ namespace ugly {
     
   const constants::EdgeType EdgeWeighted::class_type_ = constants::EdgeType::weighted;
 
+  constants::EdgeType EdgeWeighted::getClassType() { return EdgeWeighted::class_type_; }
+
   EdgeWeighted& EdgeWeighted::operator=(const EdgeWeighted & edgeweighted){
     vertex1_ = edgeweighted.vertex1_;
     vertex2_ = edgeweighted.vertex2_;

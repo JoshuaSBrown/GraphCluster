@@ -19,6 +19,17 @@ int main(){
         EdgeWeighted edgeweighted(2,3);
     }
 
+    cout << "Testing: getClassType" << endl;
+    {
+        assert(EdgeWeighted::getClassType()==constants::EdgeType::weighted);
+    }
+
+    cout << "Testing: getEdgeType" << endl;
+    {
+        EdgeWeighted edgeweighted;
+        assert(edgeweighted.getEdgeType()==constants::EdgeType::weighted);
+    }
+
     cout << "Testing: operator << " << endl;
     {
         EdgeWeighted edgeweighted(2,3);
