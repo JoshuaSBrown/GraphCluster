@@ -25,6 +25,7 @@ matrix:
 
 before_script:
   - sudo apt-get install build-essential
+  - sudo apt-get inslall mlocate
   - eval "${MATRIX_EVAL}"
   - locate clang
   - locate gcc
