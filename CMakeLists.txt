@@ -25,7 +25,7 @@ foreach(HEADER assert.h math.h stdio.h stdlib.h string.h)
 endforeach(HEADER)
 
 include(CheckIncludeFileCXX)
-foreach(HEADER cmath fstream functional iostream limits list map ostream sstream stack stdexcept string vector)
+foreach(HEADER fstream functional iostream limits list map ostream sstream stack stdexcept string vector)
   check_include_file_cxx(${HEADER} FOUND_${HEADER})
   if(NOT FOUND_${HEADER})
     message(FATAL_ERROR "Could not find needed header - ${HEADER}")
