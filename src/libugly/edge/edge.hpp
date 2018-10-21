@@ -6,6 +6,7 @@
 #include <list>
 #include <cassert>
 #include <utility>
+#include <functional>
 
 #include "../../../include/ugly/constants.hpp"
 
@@ -55,6 +56,9 @@ namespace ugly {
       int getOtherVertex(int vertex) const;
       int getVertex1(void) const;
       int getVertex2(void) const;
+
+      int getMax(void) const;
+      int getMin(void) const;
 
       bool containsVertex(int vertex) const;
 

@@ -27,14 +27,19 @@ namespace ugly {
       bool exploredVertex(int vertex);
 
       template<typename T>  
-      T& getNextEdge();
+      std::weak_ptr<T> getNextEdge();
 
-      void exploreEdge(Edge& edge);
+      void exploreEdge(std::weak_ptr<Edge> edge);
 
-      void addEdge(Edge& edge);
+      void addEdge(std::weak_ptr<Edge> edge);
 
-      virtual void addEdges(std::vector<std::reference_wrapper<Edge>> edges);
+      virtual void addEdges(std::vector<std::weak_ptr<Edge>> edges);
 
+      int chooseSourceVertex(std::weak_ptr<Edge> edge) const;
+      int chooseTerminalVertex(std::weak_ptr<Edge> edge) const;
+
+      int getUnexploredVertex(std::weak_ptr<Edge> edge) const;
+      int getExploredVertex(std::weak_ptr<Edge> edge) const;
       /**
        * \brief Determine if an edge can be added
        *
@@ -44,51 +49,51 @@ namespace ugly {
        * that is in the drain. For an undirected edge at least one of the 
        * vertices must have been explored. 
        **/
-      bool edgeCanBeAdded(Edge& edge);
+      bool edgeCanBeAdded(std::weak_ptr<Edge> edge);
 
       /**
        * \brief Determine if both vertices in the edge have been explored
        **/
-      bool verticesHaveBeenExplored(const Edge &edge) const;
-      int getUnexploredVertex(const Edge &edge) const;
-      int getExploredVertex(const Edge &edge) const;
+      bool verticesHaveBeenExplored(std::weak_ptr<Edge> edge) const;
       bool allEdgesExplored() const { return edges_to_explore_.size()==0 ;}
     protected:
       // First int is the vertex, the double is the distance
       std::map<int,double> explored_vertices_;
-      std::set<Edge> explored_edges_;
-      std::list<Edge> edges_to_explore_;
+      std::set<std::weak_ptr<Edge>> explored_edges_;
+      // If I do not use a reference wrapper here than I will be unable to take
+      // advantage of polymorphism as the list will simply use the Edge class
+      std::list<std::weak_ptr<Edge>> edges_to_explore_;
       std::list<constants::EdgeType> allowed_edge_types_;
       int starting_vertex_;
       bool starting_vertex_set_;
-      bool canAddEdge_(const Edge& edge) const;
-      virtual void addEdge_(Edge& edge);
+      bool canAddEdge_(std::weak_ptr<Edge> edge) const;
+      virtual void addEdge_(std::weak_ptr<Edge> edge);
 
-      virtual void exploreEdge_(Edge& edge);
+      virtual void exploreEdge_(std::weak_ptr<Edge> edge);
       
-      bool potentialEdgeKnown_(const Edge & edge) const;
+      bool potentialEdgeKnown_(std::weak_ptr<Edge> edge) const;
       
-      bool edgeTypeAllowed_(const Edge & edge) const;
+      bool edgeTypeAllowed_(std::weak_ptr<Edge> edge) const;
       
-      template<typename T>
-      std::vector<T&> getExploredEdges_();
 
       template<typename T>
-      std::vector<T&> castEdgesToType_(std::vector<Edge&> edges);
+      std::vector<std::weak_ptr<T>> getExploredEdges_();
 
-      virtual Edge& getNextEdge_();
+      virtual std::weak_ptr<Edge> getNextEdge_();
   };
 
   template<typename T>
-  T& GraphVisitor::getNextEdge() {
-    Edge& edge = getNextEdge_();
-    if(T::getClassType()==constants::EdgeType::edge){
-      return static_cast<T&>(edge);
+  std::weak_ptr<T> GraphVisitor::getNextEdge() {
+    auto edge_ptr = getNextEdge_();
+    if(auto edge = edge_ptr.lock()){
+      if(T::getClassType()==constants::EdgeType::edge){
+        return std::static_pointer_cast<T>(edge);
+      }
+      if(T::getClassType()==edge->getEdgeType()){
+        return std::static_pointer_cast<T>(edge);
+      }
     }
-    if(T::getClassType()==edge.getEdgeType()){
-      return static_cast<T&>(edge);
-    }
-    throw std::runtime_error("Error cannot retrive edge of the type sepcified.");
+    throw std::runtime_error("Error cannot retrive edge of the type specified.");
   }
 }
 

@@ -21,14 +21,17 @@ int main(void){
 
     cout << "Testing: addEdge" << endl;
     {
-      unique_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      unique_ptr<Edge> ed2( new EdgeWeighted(2,3));
+      shared_ptr<Edge> ed1( new EdgeWeighted(1,2));
+      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
+
+      weak_ptr<Edge> weak_ed1 = ed1;
+      weak_ptr<Edge> weak_ed2 = ed2;
 
       GraphVisitor graphvisitor;
       
       bool throwError = false;
       try{
-        graphvisitor.addEdge(*ed1); 
+        graphvisitor.addEdge(ed1); 
       }catch(...){
         throwError=true;
       }
@@ -43,27 +46,27 @@ int main(void){
 
     cout << "Testing: edgeCanBeAdded" << endl;
     {
-      unique_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      unique_ptr<Edge> ed2( new EdgeWeighted(2,3));
+      shared_ptr<Edge> ed1( new EdgeWeighted(1,2));
+      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
 
       GraphVisitor graphvisitor;
 
-      bool edgecanbeadded = graphvisitor.edgeCanBeAdded(*ed1);
+      bool edgecanbeadded = graphvisitor.edgeCanBeAdded(ed1);
       assert(!edgecanbeadded);
 
       graphvisitor.setStartingVertex(1);
-      edgecanbeadded = graphvisitor.edgeCanBeAdded(*ed1);
+      edgecanbeadded = graphvisitor.edgeCanBeAdded(ed1);
       assert(edgecanbeadded);
     }
 
     cout << "Testing: addEdges" << endl;
     {
 
-      unique_ptr<Edge> ed1( new EdgeWeighted(1,2));
-      unique_ptr<Edge> ed2( new EdgeWeighted(2,3));
-      vector<reference_wrapper<Edge>> eds;
-      eds.push_back( *ed1 );
-      eds.push_back( *ed2 );        
+      shared_ptr<Edge> ed1( new EdgeWeighted(1,2));
+      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
+      vector<weak_ptr<Edge>> eds;
+      eds.push_back( ed1 );
+      eds.push_back( ed2 );        
 
       GraphVisitor graphvisitor;
       bool throwError=false;
@@ -77,34 +80,33 @@ int main(void){
 
     cout << "Testing: verticesHaveBeenExplored" << endl;
     {
-      unique_ptr<Edge> ed1( new EdgeWeighted(2,1));
-      unique_ptr<Edge> ed2( new EdgeWeighted(2,3));
-      vector<reference_wrapper<Edge>> eds = { *ed1, *ed2 };        
+      shared_ptr<Edge> ed1( new EdgeWeighted(2,1));
+      shared_ptr<Edge> ed2( new EdgeWeighted(2,3));
+      vector<weak_ptr<Edge>> eds = { ed1, ed2 };        
 
       GraphVisitor graphvisitor;
       graphvisitor.setStartingVertex(2);
-      assert(graphvisitor.verticesHaveBeenExplored(*ed1)==false);
+      assert(graphvisitor.verticesHaveBeenExplored(ed1)==false);
 
     }
 
 
     cout << "Testing: exploreEdge" << endl;
     {
-      unique_ptr<Edge> ed1( new Edge(1,2));
-      unique_ptr<Edge> ed2( new Edge(2,3));
-      vector<reference_wrapper<Edge>> eds = { *ed1, *ed2 };        
+      shared_ptr<Edge> ed1( new Edge(1,2));
+      shared_ptr<Edge> ed2( new Edge(2,3));
+      vector<weak_ptr<Edge>> eds = { ed1, ed2 };        
 
       GraphVisitor graphvisitor;
 
       bool throwError = false;
       try{
-        graphvisitor.exploreEdge(*ed1);
+        graphvisitor.exploreEdge(ed1);
       }catch(...){
         throwError = true;
       }
       assert(throwError);
 
     }
-
     return 0;
 }

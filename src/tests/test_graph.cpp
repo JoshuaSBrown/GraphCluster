@@ -24,7 +24,7 @@ int main(void){
         shared_ptr<Edge> ed1( new Edge(1,2));
         shared_ptr<Edge> ed2( new Edge(2,3));
 
-        list<shared_ptr<Edge>> eds = { ed1, ed2 };        
+        list<weak_ptr<Edge>> eds = { ed1, ed2 };        
     
         map<int,GraphNode<string>> nds;
         nds[1]=GN0;
@@ -58,7 +58,7 @@ int main(void){
         shared_ptr<Edge> ed4( new Edge(4,5));
         shared_ptr<Edge> ed5( new Edge(5,1));
 
-        list<shared_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
+        list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
 
         map<int,GraphNode<string>> nds;
         nds[1]= GN0;

@@ -45,6 +45,22 @@ namespace ugly {
     return vertex2_;
   }
 
+  int Edge::getMin() const {
+    if(vertex1_==constants::unassigned || vertex2_==constants::unassigned){
+      throw runtime_error("Cannot get min vertex as at least one vertex in the "
+         "edge has not been assigned.");
+    }
+    return min(vertex1_,vertex2_);
+  }
+
+  int Edge::getMax() const {
+    if(vertex1_==constants::unassigned || vertex2_==constants::unassigned){
+      throw runtime_error("Cannot get max vertex as at least one vertex in the "
+         "edge has not been assigned.");
+    }
+    return max(vertex1_,vertex2_);
+  }
+
   bool Edge::containsVertex(int vertex) const {
     return (vertex1_==vertex || vertex2_==vertex);
   }
