@@ -30,6 +30,12 @@ int main(){
         assert(edgeweighted.getEdgeType()==constants::EdgeType::weighted);
     }
 
+    cout << "Testing: directional" << endl;
+    {
+      EdgeWeighted edgeweighted;
+      assert(!edgeweighted.directional());
+    }
+
     cout << "Testing: operator << " << endl;
     {
         EdgeWeighted edgeweighted(2,3);

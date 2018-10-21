@@ -17,6 +17,7 @@ namespace ugly {
     public:
       EdgeUndirected() : Edge(false) {
         object_type_ = constants::EdgeType::undirected;
+        edge_directed_ = false;
       }
 
       EdgeUndirected(int vertex1, int vertex2); 

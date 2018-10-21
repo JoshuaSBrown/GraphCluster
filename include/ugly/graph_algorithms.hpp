@@ -20,6 +20,7 @@ namespace ugly {
 
       GraphVisitorDepthFirst graphvisitor_depth_first;
       auto edges = graph.getEdgesOriginatingFromVertex(start_vertex);
+            
       graphvisitor_depth_first.setStartingVertex(start_vertex);
       graphvisitor_depth_first.addEdges(edges);
 

@@ -64,6 +64,9 @@ namespace ugly {
       // advantage of polymorphism as the list will simply use the Edge class
       std::list<std::weak_ptr<Edge>> edges_to_explore_;
       std::list<constants::EdgeType> allowed_edge_types_;
+      
+      std::map<constants::EdgeType,std::vector<constants::EdgeType>> allowed_conversions_;
+
       int starting_vertex_;
       bool starting_vertex_set_;
       bool canAddEdge_(std::weak_ptr<Edge> edge) const;
@@ -91,6 +94,12 @@ namespace ugly {
       }
       if(T::getClassType()==edge->getEdgeType()){
         return std::static_pointer_cast<T>(edge);
+      }else{
+        for( auto type : allowed_conversions_[edge->getEdgeType()] ){
+          if(T::getClassType()==type){
+            return std::static_pointer_cast<T>(edge);
+          }
+        }
       }
     }
     throw std::runtime_error("Error cannot retrive edge of the type specified.");
