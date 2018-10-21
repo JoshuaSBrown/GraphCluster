@@ -1,5 +1,5 @@
-#ifndef UGLY_EDGEWEIGHTED_HPP
-#define UGLY_EDGEWEIGHTED_HPP
+#ifndef UGLY_EDGEDIRECTEDWEIGHTED_HPP
+#define UGLY_EDGEDIRECTEDWEIGHTED_HPP
 
 #include <iostream>
 #include <vector>
@@ -51,4 +51,4 @@ namespace ugly {
 
 }
 
-#endif // UGLY_EDGEWEIGHTED_HPP
+#endif // UGLY_EDGEDIRECTEDWEIGHTED_HPP
