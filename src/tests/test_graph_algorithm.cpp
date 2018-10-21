@@ -5,6 +5,7 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <cmath>
 
 #include "../../include/ugly/graph.hpp"
 #include "../../include/ugly/graph_node.hpp"
