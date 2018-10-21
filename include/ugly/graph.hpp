@@ -3,7 +3,6 @@
 #define UGLY_GRAPH_HPP
 
 #include <iostream>
-#include <set>
 #include <map>
 #include <stdexcept>
 #include <unordered_map> 
@@ -13,6 +12,7 @@
 #include <memory>
 
 #include "../../src/libugly/edge/edge.hpp"
+#include "edge_weighted.hpp"
 #include "graph_node.hpp"
 
 namespace ugly {
@@ -21,13 +21,14 @@ namespace ugly {
   class Graph {
     private: 
       std::map<int,GraphNode<Ts>...> nodes_;
-      std::unordered_map<int,std::set<int>> neighboring_vertices_;
+      std::unordered_map<int,std::vector<std::pair<int,std::weak_ptr<Edge>>>> neighboring_vertices_;
       std::string label_;
       void calculateLabel_();
     public:
       Graph() {};
-      Graph(std::list<std::shared_ptr<Edge>> connections, std::map<int,GraphNode<Ts>...> nodes); 
-      std::vector<std::shared_ptr<Edge>> getEdgesConnectedToVertex(int vertex);
+      Graph(std::list<std::weak_ptr<Edge>> connections, std::map<int,GraphNode<Ts>...> nodes); 
+      std::vector<std::weak_ptr<Edge>> getEdgesConnectedToVertex(int vertex);
+      std::vector<std::weak_ptr<Edge>> getEdgesOriginatingFromVertex(int vertex);
       std::string getLabel();
       
       bool operator==(const Graph<Ts...>& graph) const { return label_==graph.label_;}
@@ -47,26 +48,54 @@ namespace ugly {
     }
 
   template<typename... Ts>
-  Graph<Ts...>::Graph(std::list<std::shared_ptr<Edge>> connections, std::map<int,GraphNode<Ts>...> nodes){
+  Graph<Ts...>::Graph(std::list<std::weak_ptr<Edge>> connections, std::map<int,GraphNode<Ts>...> nodes){
     for(auto item : nodes ) {
       nodes_[item.first] = item.second;
     }
-    for( auto edge : connections ){
-      neighboring_vertices_[edge->getVertex1()].insert(edge->getVertex2());
+    for( auto edge_ptr : connections ){
+
+      if( auto edge = edge_ptr.lock()){
+        neighboring_vertices_[edge->getVertex1()].push_back(
+            std::pair<int,std::weak_ptr<Edge>>(edge->getVertex2(),edge_ptr));
+
+        if(!edge->directional()){
+          neighboring_vertices_[edge->getVertex2()].push_back(
+              std::pair<int,std::weak_ptr<Edge>>(edge->getVertex1(),edge_ptr));
+        }
+      }
     }
+
     calculateLabel_();
   }
 
   template<typename... Ts>
-  std::vector<std::shared_ptr<Edge>> Graph<Ts...>::getEdgesConnectedToVertex(int vertex){
-    std::vector<std::shared_ptr<Edge>> neighbor_edges;
+  std::vector<std::weak_ptr<Edge>> Graph<Ts...>::getEdgesConnectedToVertex(
+      int vertex){
+
+    std::vector<std::weak_ptr<Edge>> neighbor_edges;
     for( auto neighboring_vertex : neighboring_vertices_[vertex]){
-      std::shared_ptr<Edge> edge(new Edge(vertex,neighboring_vertex));
-      neighbor_edges.push_back(edge);
+      neighbor_edges.push_back( neighboring_vertex.second );
     }
     return neighbor_edges;
   }
 
+  template<typename... Ts>
+  std::vector<std::weak_ptr<Edge>> Graph<Ts...>::getEdgesOriginatingFromVertex(int vertex){
+    std::vector<std::weak_ptr<Edge>> neighbor_edges;
+    for( auto neighboring_vertex : neighboring_vertices_[vertex]){
+
+      if(auto edge = neighboring_vertex.second.lock()){
+        if(edge->directional()){
+          if(edge->getVertex1()==vertex){
+            neighbor_edges.push_back( neighboring_vertex.second );
+          }
+        }else{
+          neighbor_edges.push_back( neighboring_vertex.second );
+        }
+      }
+    }
+    return neighbor_edges;
+  }
 
   template<typename... Ts>
     std::string Graph<Ts...>::getLabel(){

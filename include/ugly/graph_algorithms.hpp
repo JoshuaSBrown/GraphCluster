@@ -16,43 +16,41 @@ namespace ugly {
   namespace graphalgorithms {
   
     template<class... Ts> 
-    double dijkstraGoingFrom(int start_vertex, int end_vertex, Graph<Ts...> graph){
+    double dijkstraGoingFrom(int start_vertex, int end_vertex, Graph<Ts...>& graph){
 
-      std::cout << "end vertex " << end_vertex << std::endl;
       GraphVisitorDepthFirst graphvisitor_depth_first;
-      auto edges = graph.getEdgesConnectedToVertex(start_vertex);
-      std::cout << "Edges connected to starting vertex " << start_vertex << std::endl;
-      for( auto edge : edges ) {
-        std::cout << *edge << std::endl;
-      }
-      graphvisitor_depth_first.addEdges(edges);
+      auto edges = graph.getEdgesOriginatingFromVertex(start_vertex);
       graphvisitor_depth_first.setStartingVertex(start_vertex);
+      graphvisitor_depth_first.addEdges(edges);
 
-      auto next_edge = graphvisitor_depth_first.getNextEdge<EdgeWeighted>();    
+      auto next_edge = graphvisitor_depth_first.getNextEdge<EdgeWeighted>();
+      while(graphvisitor_depth_first.allEdgesExplored()==false){
 
-      std::cout << "Starting loop " << std::endl;
-   /*   while(graphvisitor_depth_first.allEdgesExplored()==false){
-        std::cout << "loop" << std::endl;
-        auto edge = graphvisitor_depth_first.getNextEdge<Edge>();
-        std::cout << "Got edge" << std::endl;
-        graphvisitor_depth_first.exploreEdge(edge);
-        std::cout << "1" << std::endl;
-        auto next_vertex = graphvisitor_depth_first.getUnexploredVertex(edge);
-        std::cout << "2" << std::endl;
-        edges = graph.getEdgesConnectedToVertex(next_vertex);
-        std::cout << "3" << std::endl;
-        graphvisitor_depth_first.addEdges(edges);
-        std::cout << "4" << std::endl;
-        if(next_vertex==end_vertex){
-          std::cout << " Returning with distance " << std::endl;
-          return graphvisitor_depth_first.getDistanceOfVertex(next_vertex);
+        std::cout << "Looking for uexplored edge" << std::endl;
+        next_edge = graphvisitor_depth_first.getNextEdge<EdgeWeighted>();
+        std::cout << "Exploring Edge" << std::endl;
+        if(auto ed = next_edge.lock() ) std::cout << *ed << std::endl;
+        auto next_vertex = graphvisitor_depth_first.chooseTerminalVertex(next_edge);
+        std::cout << "Exploring" << std::endl;
+        graphvisitor_depth_first.exploreEdge(next_edge);
+        edges = graph.getEdgesOriginatingFromVertex(next_vertex);
+
+        for (auto ed : edges ){
+          std::cout << "Adding edges" << std::endl;
+          if(graphvisitor_depth_first.edgeCanBeAdded(ed)){
+            if(auto ed_temp = ed.lock()) std::cout << *ed_temp << std::endl;
+            graphvisitor_depth_first.addEdge(ed);
+          }
         }
-        std::cout << "5" << std::endl;
-      }*/
 
-//      throw std::runtime_error("No connection has been found between your two "
-//          "vertices.");
-      return 2.1;
+        if(end_vertex==next_vertex){
+          return graphvisitor_depth_first.getDistanceOfVertex(end_vertex);
+        }
+
+      }
+
+      throw std::runtime_error("No connection has been found between your two "
+          "vertices.");
     }
 
 
