@@ -27,13 +27,26 @@ namespace ugly {
         weight_(1.0) {
           object_type_ = constants::EdgeType::weighted;
           edge_directed_=false;
+          if(vertex1<vertex2){
+            vertex1_ = vertex1; 
+            vertex2_ = vertex2; 
+          }else{
+            vertex1_ = vertex2; 
+            vertex2_ = vertex1; 
+          }
         }
 
       EdgeWeighted(int vertex1, int vertex2,double weight) : 
-        Edge(vertex1,vertex2),
         weight_(weight){
           object_type_ = constants::EdgeType::weighted;
           edge_directed_ = false;
+          if(vertex1<vertex2){
+            vertex1_ = vertex1; 
+            vertex2_ = vertex2; 
+          }else{
+            vertex1_ = vertex2; 
+            vertex2_ = vertex1; 
+          }
         }
 
       EdgeWeighted(const EdgeWeighted &edgeweighted) : Edge(edgeweighted) {
