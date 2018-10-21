@@ -29,12 +29,27 @@ namespace ugly {
       Graph(std::list<std::weak_ptr<Edge>> connections, std::map<int,GraphNode<Ts>...> nodes); 
       std::vector<std::weak_ptr<Edge>> getEdgesConnectedToVertex(int vertex);
       std::vector<std::weak_ptr<Edge>> getEdgesOriginatingFromVertex(int vertex);
+      std::vector<int> getVertices();
       std::string getLabel();
-      
+      /// Determine if the graph is directional this will be true if any single 
+      /// one of the stored edges are directional, else it will be false      
+      bool directional();
       bool operator==(const Graph<Ts...>& graph) const { return label_==graph.label_;}
       bool operator!=(const Graph<Ts...>& graph) const { return !((*this)==graph);}
 
   };
+
+  template<typename... Ts>
+    bool Graph<Ts...>::directional(){
+      for(auto map_pair : neighboring_vertices_){
+        for(auto vector_pair_vertexIdAndEdge : map_pair.second){
+          if(auto edge_ptr = vector_pair_vertexIdAndEdge.second.lock() ){
+            if(edge_ptr->directional()) return true;
+          }
+        }
+      }
+      return false;
+    }
 
   template<typename... Ts>
     void Graph<Ts...>::calculateLabel_() {
@@ -96,6 +111,16 @@ namespace ugly {
     }
     return neighbor_edges;
   }
+
+  template<typename... Ts>
+    std::vector<int> Graph<Ts...>::getVertices(){
+
+      std::vector<int> vertices;
+      for(auto vertex_it : nodes_){
+        vertices.push_back(vertex_it.first);
+      }
+      return vertices;
+    }
 
   template<typename... Ts>
     std::string Graph<Ts...>::getLabel(){
