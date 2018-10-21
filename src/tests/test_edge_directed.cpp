@@ -30,6 +30,12 @@ int main(){
         assert(edgedirected.getEdgeType()==constants::EdgeType::directed);
     }
     
+    cout << "Testing: directional" << endl;
+    {
+        EdgeDirected edgedirected;
+        assert(edgedirected.directional());
+    }
+
     cout << "Testing: operator << " << endl;
     {
         EdgeDirected edgedirected(2,3);

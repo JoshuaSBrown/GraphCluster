@@ -29,7 +29,13 @@ int main(){
         EdgeUndirected edgeundirected;
         assert(edgeundirected.getEdgeType()==constants::EdgeType::undirected);
     }
-    
+
+    cout << "Testing: directional" << endl;
+    {
+      EdgeUndirected EdgeUndirected;
+      assert(!EdgeUndirected.directional());
+    }
+
     cout << "Testing: operator << " << endl;
     {
         EdgeUndirected edgeundirected(2,3);

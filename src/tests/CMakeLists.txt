@@ -1,6 +1,7 @@
 
 foreach(PROG 
     test_edge_directed
+    test_edge_directed_weighted
     test_edge_undirected 
     test_edge_weighted 
     test_graph

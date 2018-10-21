@@ -74,6 +74,7 @@ namespace ugly {
   }
 
   bool Edge::operator==(const Edge & edge) const{
+
     if(vertex1_==edge.vertex1_ && vertex2_==edge.vertex2_) return true; 
     if(vertex2_==edge.vertex1_ && vertex2_==edge.vertex2_) return true; 
     return false;

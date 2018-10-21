@@ -12,6 +12,7 @@ namespace ugly {
       edge,
       undirected,
       weighted,
+      directed_weighted,
       directed
     };
 

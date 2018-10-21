@@ -11,6 +11,7 @@
 #include "../../include/ugly/graph_node.hpp"
 #include "../../include/ugly/graph_algorithms.hpp"
 #include "../../include/ugly/edge_weighted.hpp"
+#include "../../include/ugly/edge_directed_weighted.hpp"
 
 using namespace ugly;
 using namespace std;
@@ -19,7 +20,7 @@ using namespace graphalgorithms;
 int main(void){
 
   cout << "Testing: dijkstraGoingFrom" << endl;
-  cout << "Test: 1" << endl;
+  cout << "Test: with weighted edges 1" << endl;
   {
     // Let's begin by first creating a pentagon
     //
@@ -64,7 +65,7 @@ int main(void){
     assert(static_cast<int>(round(shortest_distance))==2);
   }
 
-  cout << "Test: 2" << endl;
+  cout << "Test: with weighted edges 2" << endl;
   {
     // Let's begin by first creating a pentagon
     //
@@ -118,5 +119,104 @@ int main(void){
     shortest_distance = dijkstraGoingFrom<string>(1,6,gc);
     assert(static_cast<int>(round(shortest_distance))==3);
   }
+
+  cout << "Test: with directed and weighted edges 3" << endl;
+  {
+    // Let's begin by first creating a pentagon
+    //
+    //      -1c-
+    //     |    |
+    //    5c    2c
+    //     |    |
+    //    4c -- 3c
+    //     
+    GraphNode<string> GN0("C");
+    GraphNode<string> GN1("C");
+    GraphNode<string> GN2("C");
+    GraphNode<string> GN3("C");
+    GraphNode<string> GN4("C");
+
+    // Edge 1->2
+    shared_ptr<Edge> ed1( new EdgeDirectedWeighted(1,2,1.0));
+    // Edge 2->3
+    shared_ptr<Edge> ed2( new EdgeDirectedWeighted(2,3,1.0));
+    // Edge 3->4
+    shared_ptr<Edge> ed3( new EdgeDirectedWeighted(3,4,2.0));
+    // Edge 4->5
+    shared_ptr<Edge> ed4( new EdgeDirectedWeighted(4,5,1.0));
+    // Edge 5->1
+    shared_ptr<Edge> ed5( new EdgeDirectedWeighted(5,1,1.0));
+
+    list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
+
+    map<int,GraphNode<string>> nds;
+    nds[1]= GN0;
+    nds[2]= GN1;
+    nds[3]= GN2;
+    nds[4]= GN3;
+    nds[5]= GN4;
+
+    Graph<string> gc(eds,nds);
+
+    double shortest_distance = dijkstraGoingFrom<string>(2,3,gc);
+    assert(static_cast<int>(round(shortest_distance))==1);
+
+    shortest_distance = dijkstraGoingFrom<string>(3,2,gc);
+    assert(static_cast<int>(round(shortest_distance))==5);
+  }
+
+  cout << "Test: with directed and weighted edges 4" << endl;
+  {
+    // Let's begin by first creating a pentagon
+    //
+    //      -1c-
+    //     |    |
+    //    5c    2c
+    //     |    |
+    //    4c -- 3c
+    //     
+    GraphNode<string> GN0("C");
+    GraphNode<string> GN1("C");
+    GraphNode<string> GN2("C");
+    GraphNode<string> GN3("C");
+    GraphNode<string> GN4("C");
+
+    // Switched the order so it should not be possible to find a shortest
+    // distance between the vertices
+    // Edge 2->1
+    shared_ptr<Edge> ed1( new EdgeDirectedWeighted(2,1,1.0));
+    // Edge 2->3
+    shared_ptr<Edge> ed2( new EdgeDirectedWeighted(2,3,1.0));
+    // Edge 3->4
+    shared_ptr<Edge> ed3( new EdgeDirectedWeighted(3,4,2.0));
+    // Edge 4->5
+    shared_ptr<Edge> ed4( new EdgeDirectedWeighted(4,5,1.0));
+    // Edge 5->1
+    shared_ptr<Edge> ed5( new EdgeDirectedWeighted(5,1,1.0));
+
+    list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
+
+    map<int,GraphNode<string>> nds;
+    nds[1]= GN0;
+    nds[2]= GN1;
+    nds[3]= GN2;
+    nds[4]= GN3;
+    nds[5]= GN4;
+
+    Graph<string> gc(eds,nds);
+
+    double shortest_distance = dijkstraGoingFrom<string>(2,3,gc);
+    assert(static_cast<int>(round(shortest_distance))==1);
+
+    bool throwError=false;
+    try{
+      shortest_distance = dijkstraGoingFrom<string>(3,2,gc);
+    }catch(...){
+      throwError = true;
+    }
+    assert(throwError);
+  }
+
+
   return 0;
 }

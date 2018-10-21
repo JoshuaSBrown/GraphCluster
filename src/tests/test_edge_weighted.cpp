@@ -30,6 +30,12 @@ int main(){
         assert(edgeweighted.getEdgeType()==constants::EdgeType::weighted);
     }
 
+    cout << "Testing: directional" << endl;
+    {
+      EdgeWeighted edgeweighted;
+      assert(!edgeweighted.directional());
+    }
+
     cout << "Testing: operator << " << endl;
     {
         EdgeWeighted edgeweighted(2,3);
@@ -42,8 +48,8 @@ int main(){
         EdgeWeighted edgeweighted2(2,4);
         EdgeWeighted edgeweighted3(3,2);
         assert(edgeweighted==edgeweighted);
-        assert((edgeweighted==edgeweighted3)==0);
         assert((edgeweighted==edgeweighted2)==0);
+        assert(edgeweighted==edgeweighted3);
     }
 
     cout << "Testing: !=" << endl;
@@ -65,9 +71,9 @@ int main(){
     {
         EdgeWeighted edgeweighted1(1,2);
         EdgeWeighted edgeweighted2(2,1);
-        assert(edgeweighted1<edgeweighted2);
+        assert((edgeweighted1<edgeweighted2)==0);
         EdgeWeighted edgeweighted3(3,0);
-        assert(edgeweighted1<edgeweighted3);
+        assert((edgeweighted1<edgeweighted3)==0);
         EdgeWeighted edgeweighted4(1,5);
         assert(edgeweighted1<edgeweighted4);
         EdgeWeighted edgeweighted5(2,2);
@@ -79,9 +85,9 @@ int main(){
        
         EdgeWeighted edgeweighted1(1,2);
         EdgeWeighted edgeweighted2(2,1);
-        assert(edgeweighted2>edgeweighted1);
+        assert((edgeweighted2>edgeweighted1)==0);
         EdgeWeighted edgeweighted3(3,0);
-        assert(edgeweighted3>edgeweighted1);
+        assert((edgeweighted3>edgeweighted1)==0);
     }
 
     cout << "Testing: EdgeWeighted in set" << endl;

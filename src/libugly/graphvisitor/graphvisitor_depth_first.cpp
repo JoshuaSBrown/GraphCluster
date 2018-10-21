@@ -10,6 +10,9 @@ namespace ugly {
   GraphVisitorDepthFirst::GraphVisitorDepthFirst(){
     allowed_edge_types_.clear();
     allowed_edge_types_.push_back(constants::EdgeType::weighted);
+    allowed_edge_types_.push_back(constants::EdgeType::directed_weighted);
+    allowed_conversions_[constants::EdgeType::weighted].push_back(constants::EdgeType::directed_weighted);
+    allowed_conversions_[constants::EdgeType::directed_weighted].push_back(constants::EdgeType::weighted);
   }
 
   void GraphVisitorDepthFirst::addEdges(vector<weak_ptr<Edge>> edges){
