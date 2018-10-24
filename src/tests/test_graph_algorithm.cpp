@@ -218,6 +218,7 @@ int main(void){
   }
 
   cout << "Testing: maxMinimumDistanceBetweenEveryVertex" << endl;
+  cout << "Testing: Test 1" << endl;
   {
 
     // Let's begin by first creating a pentagon
@@ -277,6 +278,47 @@ int main(void){
 
     assert(count4s==1);
     assert(count5s==4);
+  }
+
+  cout << "Testing: Test 2" << endl;
+  {
+
+    // Let's begin by first creating a single edge with nodes
+    //
+    //  1c - 2c
+    //     
+    auto GN0 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN1 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+
+    // Switched the order so it should not be possible to find a shortest
+    // distance between the vertices
+    // Edge 1->2
+    shared_ptr<Edge> ed1( new EdgeDirectedWeighted(1,2,2.0));
+    // Edge 2<-1
+    shared_ptr<Edge> ed2( new EdgeDirectedWeighted(2,1,1.0));
+
+    list<weak_ptr<Edge>> eds = { ed1, ed2};        
+
+    map<int,weak_ptr<GraphNode<string>>> nds;
+    nds[1]= GN0;
+    nds[2]= GN1;
+
+    Graph<string> gc(eds,nds);
+
+    auto maxMinDistances = maxMinimumDistanceBetweenEveryVertex<string>(gc);
+    assert(maxMinDistances.size()==2);
+    
+    // Max distance starting at vertex 
+    // 1 should be a distance of 2
+    // 2 should be a distance of 1
+    bool dist2found=false;
+    bool dist1found=false;
+    for(auto map_iterator : maxMinDistances){
+      if(static_cast<int>(round(map_iterator.second))==2) dist2found=true;
+      if(static_cast<int>(round(map_iterator.second))==1) dist1found=true;
+    }
+    assert(dist1found);
+    assert(dist2found);
   }
 
   return 0;
