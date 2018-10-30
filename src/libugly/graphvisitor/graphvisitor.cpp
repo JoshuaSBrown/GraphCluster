@@ -162,6 +162,14 @@ namespace ugly {
     throw invalid_argument("Cannot convert weak pointer to shared pointer.");
   }
 
+  vector<int> GraphVisitor::getExploredVertices() const {
+    vector<int> explored_vertices;
+    for(auto vertex : explored_vertices_){
+      explored_vertices.push_back(vertex.first);
+    }
+    return explored_vertices;
+  }
+
   /****************************************************************************
    * Internal private functions
    ****************************************************************************/

@@ -40,6 +40,8 @@ namespace ugly {
 
       int getUnexploredVertex(std::weak_ptr<Edge> edge) const;
       int getExploredVertex(std::weak_ptr<Edge> edge) const;
+      std::vector<int> getExploredVertices() const;
+
       /**
        * \brief Determine if an edge can be added
        *

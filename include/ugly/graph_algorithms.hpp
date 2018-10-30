@@ -2,12 +2,14 @@
 #define UGLY_GRAPHALGORITHMS_HPP
 
 #include <vector>
+#include <unordered_set>
 #include <unordered_map> 
 #include <algorithm>
 #include <stdexcept>
 
 #include "../../src/libugly/edge/edge.hpp"
 #include "../../src/libugly/graphvisitor/graphvisitor_depth_first.hpp"
+#include "../../src/libugly/graphvisitor/graphvisitor_generic.hpp"
 #include "graph.hpp"
 #include "graph_node.hpp"
 #include "constants.hpp"
@@ -15,6 +17,46 @@
 namespace ugly {
 
   namespace graphalgorithms {
+
+    template<class... Ts>
+      std::vector<std::vector<int>> findSubGraphs(Graph<Ts...>& graph){
+        std::vector<std::vector<int>> sub_graphs;
+        std::unordered_set<int> already_explored_vertices;
+
+        auto vertices = graph.getVertices();
+        for(auto vertex : vertices ){
+
+          GraphVisitorGeneric graphvisitor_generic;
+          if(already_explored_vertices.count(vertex)==0){
+
+            already_explored_vertices.insert(vertex);
+            auto edges = graph.getEdgesOriginatingFromVertex(vertex);
+            graphvisitor_generic.setStartingVertex(vertex);
+            if(edges.size()>0){
+              graphvisitor_generic.addEdges(edges);
+
+              auto next_edge = graphvisitor_generic.getNextEdge<Edge>();
+              while(graphvisitor_generic.allEdgesExplored()==false){
+                next_edge = graphvisitor_generic.getNextEdge<Edge>();
+                auto next_vertex = graphvisitor_generic.chooseTerminalVertex(next_edge);
+
+                already_explored_vertices.insert(next_vertex);
+                graphvisitor_generic.exploreEdge(next_edge);
+                edges = graph.getEdgesOriginatingFromVertex(next_vertex);
+
+                for(auto ed : edges){
+                  if(graphvisitor_generic.edgeCanBeAdded(ed)){
+                    graphvisitor_generic.addEdge(ed);
+                  }
+                }
+              }
+            }
+            sub_graphs.push_back(graphvisitor_generic.getExploredVertices());
+          }
+        }
+
+        return sub_graphs;
+      }
 
     template<class... Ts> 
       double dijkstraGoingFrom(int start_vertex, int end_vertex, Graph<Ts...>& graph){
