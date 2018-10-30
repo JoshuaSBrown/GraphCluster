@@ -321,5 +321,169 @@ int main(void){
     assert(dist2found);
   }
 
+  cout << "Testing: findSubGraphs" << endl;
+  cout << "Test1" << endl;
+  {
+
+    // Let's begin by first creating a pentagon
+    //
+    //      -1c-
+    //     |    |
+    //    5c    2c
+    //     |    |
+    //    4c -- 3c
+    //     
+    auto GN0 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN1 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN2 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN3 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN4 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+
+    // Edge 1->2
+    shared_ptr<Edge> ed12( new EdgeDirected(1,2));
+    // Edge 2->1
+    shared_ptr<Edge> ed21( new EdgeDirected(2,1));
+    // Edge 2->3
+    shared_ptr<Edge> ed23( new EdgeDirectedWeighted(2,3,1.0));
+    shared_ptr<Edge> ed32( new EdgeDirectedWeighted(3,2,1.0));
+    // Edge 3->4
+    shared_ptr<Edge> ed34( new EdgeDirected(3,4));
+    shared_ptr<Edge> ed43( new EdgeDirected(4,3));
+    // Edge 4->5
+    shared_ptr<Edge> ed45( new EdgeDirectedWeighted(4,5,1.0));
+    shared_ptr<Edge> ed54( new EdgeDirectedWeighted(5,4,1.0));
+    // Edge 5->1
+    shared_ptr<Edge> ed51( new EdgeDirectedWeighted(5,1,1.0));
+    shared_ptr<Edge> ed15( new EdgeDirectedWeighted(1,5,1.0));
+
+    list<weak_ptr<Edge>> eds = { ed12, ed21, ed23, ed32, ed34, ed43, 
+      ed54, ed45, ed51, ed15 };        
+
+    map<int,weak_ptr<GraphNode<string>>> nds;
+    nds[1]= GN0;
+    nds[2]= GN1;
+    nds[3]= GN2;
+    nds[4]= GN3;
+    nds[5]= GN4;
+
+    Graph<string> gc(eds,nds);
+
+    auto subgraphs = findSubGraphs<string>(gc);
+    assert(subgraphs.size()==1);
+
+    bool found_vertex1 = false;
+    bool found_vertex2 = false;
+    bool found_vertex3 = false;
+    bool found_vertex4 = false;
+    bool found_vertex5 = false;
+    for(auto vertex : subgraphs.at(0) ){
+      if(vertex==1) found_vertex1 = true;
+      if(vertex==2) found_vertex2 = true;
+      if(vertex==3) found_vertex3 = true;
+      if(vertex==4) found_vertex4 = true;
+      if(vertex==5) found_vertex5 = true;
+    } 
+
+    assert(found_vertex1);
+    assert(found_vertex2);
+    assert(found_vertex3);
+    assert(found_vertex4);
+    assert(found_vertex5);
+  }
+
+  cout << "Test2" << endl;
+  {
+
+    // Let's begin by first creating a pentagon
+    //
+    //      -1c-
+    //     |    |    6c    7c-8c
+    //    5c    2c
+    //     |    |
+    //    4c -- 3c
+    //     
+    auto GN0 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN1 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN2 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN3 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN4 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN5 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN6 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+    auto GN7 = shared_ptr<GraphNode<string>>(new GraphNode<string>("C"));
+
+    // Edge 1->2
+    shared_ptr<Edge> ed12( new EdgeDirected(1,2));
+    // Edge 2->1
+    shared_ptr<Edge> ed21( new EdgeDirected(2,1));
+    // Edge 2->3
+    shared_ptr<Edge> ed23( new EdgeDirectedWeighted(2,3,1.0));
+    shared_ptr<Edge> ed32( new EdgeDirectedWeighted(3,2,1.0));
+    // Edge 3->4
+    shared_ptr<Edge> ed34( new EdgeDirected(3,4));
+    shared_ptr<Edge> ed43( new EdgeDirected(4,3));
+    // Edge 4->5
+    shared_ptr<Edge> ed45( new EdgeDirectedWeighted(4,5,1.0));
+    shared_ptr<Edge> ed54( new EdgeDirectedWeighted(5,4,1.0));
+    // Edge 5->1
+    shared_ptr<Edge> ed51( new EdgeDirectedWeighted(5,1,1.0));
+    shared_ptr<Edge> ed15( new EdgeDirectedWeighted(1,5,1.0));
+
+    shared_ptr<Edge> ed78( new EdgeDirected(7,8));
+    shared_ptr<Edge> ed87( new EdgeDirected(8,7));
+
+    list<weak_ptr<Edge>> eds = { ed12, ed21, ed23, ed32, ed34, ed43, 
+      ed54, ed45, ed51, ed15, ed78, ed87 };        
+
+    map<int,weak_ptr<GraphNode<string>>> nds;
+    nds[1]= GN0;
+    nds[2]= GN1;
+    nds[3]= GN2;
+    nds[4]= GN3;
+    nds[5]= GN4;
+    nds[6]= GN5;
+    nds[7]= GN6;
+    nds[8]= GN7;
+
+    Graph<string> gc(eds,nds);
+
+    auto subgraphs = findSubGraphs<string>(gc);
+    assert(subgraphs.size()==3);
+
+    bool found_vertex1 = false;
+    bool found_vertex2 = false;
+    bool found_vertex3 = false;
+    bool found_vertex4 = false;
+    bool found_vertex5 = false;
+    for(auto vertex : subgraphs.at(0) ){
+      if(vertex==1) found_vertex1 = true;
+      if(vertex==2) found_vertex2 = true;
+      if(vertex==3) found_vertex3 = true;
+      if(vertex==4) found_vertex4 = true;
+      if(vertex==5) found_vertex5 = true;
+    } 
+
+    assert(found_vertex1);
+    assert(found_vertex2);
+    assert(found_vertex3);
+    assert(found_vertex4);
+    assert(found_vertex5);
+
+    bool found_vertex6 = false;
+    for(auto vertex : subgraphs.at(1) ){
+      if(vertex==6) found_vertex6 = true;
+    }
+    assert(found_vertex6);
+
+    bool found_vertex7 = false;
+    bool found_vertex8 = false;
+    for(auto vertex : subgraphs.at(2) ){
+      if(vertex==7) found_vertex7 = true;
+      if(vertex==8) found_vertex8 = true;
+    }
+    assert(found_vertex7);
+    assert(found_vertex8);
+  }
+
+
   return 0;
 }

@@ -8,7 +8,8 @@ foreach(PROG
     test_graph_algorithm
     test_graph_node 
     test_graphvisitor
-    test_graphvisitor_depth_first)
+    test_graphvisitor_depth_first
+    test_graphvisitor_generic)
   file(GLOB ${PROG}_SOURCES ${PROG}.cpp)
   add_executable(unit_${PROG} ${${PROG}_SOURCES})
   target_link_libraries(unit_${PROG} ugly)

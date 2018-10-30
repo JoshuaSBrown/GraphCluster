@@ -16,7 +16,7 @@ namespace ugly {
   /****************************************************************************
    * External public facing methods
    ****************************************************************************/
-  void GraphVisitorGeneric::GraphVisitorGeneric(){
+  GraphVisitorGeneric::GraphVisitorGeneric(){
     allowed_edge_types_.push_back(constants::EdgeType::undirected);
     allowed_edge_types_.push_back(constants::EdgeType::directed);
     allowed_edge_types_.push_back(constants::EdgeType::directed_weighted);
@@ -34,7 +34,7 @@ namespace ugly {
     }
   }
 
-  void GraphVisitorGeneric::addEdges(vector<weak_ptr<Edge>>){
+  void GraphVisitorGeneric::addEdges(vector<weak_ptr<Edge>> edges){
     for( auto edge_ptr : edges ){
       addEdge(edge_ptr);
     }
@@ -49,6 +49,6 @@ namespace ugly {
   }
 
   weak_ptr<Edge> GraphVisitorGeneric::getNextEdge_(){
-    return (*edges_to_explore.begin())
+    return (*edges_to_explore_.begin());
   }
 }

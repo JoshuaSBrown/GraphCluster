@@ -6,7 +6,9 @@
 
 namespace ugly {
 
-  class GraphVisitorGenericGeneric : public GaphVisitor {
+  class Edge;
+
+  class GraphVisitorGeneric : public GraphVisitor {
     public:
       GraphVisitorGeneric();
 
