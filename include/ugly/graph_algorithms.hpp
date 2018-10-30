@@ -16,6 +16,12 @@ namespace ugly {
 
   namespace graphalgorithms {
 
+    template<class... Ts>
+      std::vector<vector<int>> findSubGraphs(Graph<Ts...>& graph){
+
+
+      }
+
     template<class... Ts> 
       double dijkstraGoingFrom(int start_vertex, int end_vertex, Graph<Ts...>& graph){
 
