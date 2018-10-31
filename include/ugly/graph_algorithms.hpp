@@ -17,7 +17,44 @@
 namespace ugly {
 
   namespace graphalgorithms {
+    template<class... Ts>
+      bool isSingleNetwork(Graph<Ts...>& graph){
+        std::unordered_set<int> already_explored_vertices;
+        int count = 0;
+        auto vertices = graph.getVertices();
+        for(auto vertex : vertices ){
 
+          GraphVisitorGeneric graphvisitor_generic;
+          if(already_explored_vertices.count(vertex)==0){
+
+            already_explored_vertices.insert(vertex);
+            auto edges = graph.getEdgesOriginatingFromVertex(vertex);
+            graphvisitor_generic.setStartingVertex(vertex);
+            if(edges.size()>0){
+              graphvisitor_generic.addEdges(edges);
+
+              auto next_edge = graphvisitor_generic.getNextEdge<Edge>();
+              while(graphvisitor_generic.allEdgesExplored()==false){
+                next_edge = graphvisitor_generic.getNextEdge<Edge>();
+                auto next_vertex = graphvisitor_generic.chooseTerminalVertex(next_edge);
+
+                already_explored_vertices.insert(next_vertex);
+                graphvisitor_generic.exploreEdge(next_edge);
+                edges = graph.getEdgesOriginatingFromVertex(next_vertex);
+
+                for(auto ed : edges){
+                  if(graphvisitor_generic.edgeCanBeAdded(ed)){
+                    graphvisitor_generic.addEdge(ed);
+                  }
+                }
+              }
+            }
+            ++count;
+            if(count>1) return false;
+          }
+        }
+        return true;
+      }
     /**
      * \brief Finds if graph is fully connected or not
      *
