@@ -32,6 +32,7 @@ namespace ugly {
       for_each_in_tuple_str(tuple, func, std::make_index_sequence<sizeof...(Ts)>());
     }
 
+
   template<class... Ts>
     class GraphNode {
 
@@ -44,6 +45,11 @@ namespace ugly {
         explicit GraphNode(Ts... ts) {
           tp = std::tuple<Ts...>(ts...);          
         }
+
+        template<typename G>
+          G getItem(){
+            return std::get<G>(tp); 
+          }
 
         std::string getLabel() const{
           std::string result = "";

@@ -16,6 +16,13 @@ int main(void){
         GraphNode<double,int,double,string> GN3(3.4,1,45,"two");
     }
     
+    cout << "Testing: getItem" << endl;
+    {
+        GraphNode<string,double> GN("One",1.2);
+        assert(GN.getItem<string>()=="One");
+        assert(static_cast<int>(GN.getItem<double>()*10)==12);
+    }
+
     cout << "Testing; == && !=" << endl;
     {
         GraphNode<string,double> GN2("One",1.1);
