@@ -18,6 +18,11 @@ namespace ugly {
 
   namespace graphalgorithms {
 
+    /**
+     * \brief Finds if graph is fully connected or not
+     *
+     * Will return subgraphs if the graph is composed of isolated networks. 
+     **/
     template<class... Ts>
       std::vector<std::vector<int>> findSubGraphs(Graph<Ts...>& graph){
         std::vector<std::vector<int>> sub_graphs;
