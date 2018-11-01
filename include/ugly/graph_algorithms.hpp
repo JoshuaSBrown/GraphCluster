@@ -9,9 +9,9 @@
 #include <stdexcept>
 
 #include "../../src/libugly/edge/edge.hpp"
-#include "../../src/libugly/pair_hash.hpp"
 #include "../../src/libugly/graphvisitor/graphvisitor_depth_first.hpp"
 #include "../../src/libugly/graphvisitor/graphvisitor_generic.hpp"
+#include "pair_hash.hpp"
 #include "graph.hpp"
 #include "graph_node.hpp"
 #include "constants.hpp"
