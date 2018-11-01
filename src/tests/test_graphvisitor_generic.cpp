@@ -4,7 +4,6 @@
 #include <cassert>
 #include <list>
 #include <vector>
-#include <map>
 #include <cmath>
 
 #include "../libugly/graphvisitor/graphvisitor_generic.hpp"

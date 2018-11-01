@@ -1,4 +1,4 @@
-#include <map>
+#include <unordered_map>
 #include <iostream>
 #include <string>
 #include <cassert>
@@ -55,7 +55,7 @@ int main(void){
 
     cout << "Testing: assignment operator = " << endl;
     {
-      map<int, GraphNode<string> > test_map;
+      unordered_map<int, GraphNode<string> > test_map;
       GraphNode<string> GN("One");
       GraphNode<string> GN1;
       GN1 = GN;

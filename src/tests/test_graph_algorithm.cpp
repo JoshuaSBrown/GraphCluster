@@ -4,7 +4,7 @@
 #include <cassert>
 #include <list>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <cmath>
 
 #include "../../include/ugly/graph.hpp"
@@ -49,7 +49,7 @@ int main(void){
 
     list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
 
-    map<int,weak_ptr<GraphNode<string>>> nds;
+    unordered_map<int,weak_ptr<GraphNode<string>>> nds;
     nds[1]= GN0;
     nds[2]= GN1;
     nds[3]= GN2;
@@ -104,7 +104,7 @@ int main(void){
 
     list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5, ed6, ed7, ed8, ed9, ed10 };        
 
-    map<int,weak_ptr<GraphNode<string>>> nds;
+    unordered_map<int,weak_ptr<GraphNode<string>>> nds;
     nds[1]= GN0;
     nds[2]= GN1;
     nds[3]= GN2;
@@ -149,7 +149,7 @@ int main(void){
 
     list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
 
-    map<int,weak_ptr<GraphNode<string>>> nds;
+    unordered_map<int,weak_ptr<GraphNode<string>>> nds;
     nds[1]= GN0;
     nds[2]= GN1;
     nds[3]= GN2;
@@ -196,7 +196,7 @@ int main(void){
 
     list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
 
-    map<int,weak_ptr<GraphNode<string>>> nds;
+    unordered_map<int,weak_ptr<GraphNode<string>>> nds;
     nds[1]= GN0;
     nds[2]= GN1;
     nds[3]= GN2;
@@ -250,7 +250,7 @@ int main(void){
 
     list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
 
-    map<int,weak_ptr<GraphNode<string>>> nds;
+    unordered_map<int,weak_ptr<GraphNode<string>>> nds;
     nds[1]= GN0;
     nds[2]= GN1;
     nds[3]= GN2;
@@ -299,7 +299,7 @@ int main(void){
 
     list<weak_ptr<Edge>> eds = { ed1, ed2};        
 
-    map<int,weak_ptr<GraphNode<string>>> nds;
+    unordered_map<int,weak_ptr<GraphNode<string>>> nds;
     nds[1]= GN0;
     nds[2]= GN1;
 
@@ -359,7 +359,7 @@ int main(void){
     list<weak_ptr<Edge>> eds = { ed12, ed21, ed23, ed32, ed34, ed43, 
       ed54, ed45, ed51, ed15 };        
 
-    map<int,weak_ptr<GraphNode<string>>> nds;
+    unordered_map<int,weak_ptr<GraphNode<string>>> nds;
     nds[1]= GN0;
     nds[2]= GN1;
     nds[3]= GN2;
@@ -434,7 +434,7 @@ int main(void){
     list<weak_ptr<Edge>> eds = { ed12, ed21, ed23, ed32, ed34, ed43, 
       ed54, ed45, ed51, ed15, ed78, ed87 };        
 
-    map<int,weak_ptr<GraphNode<string>>> nds;
+    unordered_map<int,weak_ptr<GraphNode<string>>> nds;
     nds[1]= GN0;
     nds[2]= GN1;
     nds[3]= GN2;
@@ -454,32 +454,28 @@ int main(void){
     bool found_vertex3 = false;
     bool found_vertex4 = false;
     bool found_vertex5 = false;
-    for(auto vertex : subgraphs.at(0) ){
-      if(vertex==1) found_vertex1 = true;
-      if(vertex==2) found_vertex2 = true;
-      if(vertex==3) found_vertex3 = true;
-      if(vertex==4) found_vertex4 = true;
-      if(vertex==5) found_vertex5 = true;
-    } 
-
+    bool found_vertex6 = false;
+    bool found_vertex7 = false;
+    bool found_vertex8 = false;
+  
+    for( auto subgraph : subgraphs ){
+      for(auto vertex : subgraph ){
+        if(vertex==1) found_vertex1 = true;
+        if(vertex==2) found_vertex2 = true;
+        if(vertex==3) found_vertex3 = true;
+        if(vertex==4) found_vertex4 = true;
+        if(vertex==5) found_vertex5 = true;
+        if(vertex==6) found_vertex6 = true;
+        if(vertex==7) found_vertex7 = true;
+        if(vertex==8) found_vertex8 = true;
+      } 
+    }
     assert(found_vertex1);
     assert(found_vertex2);
     assert(found_vertex3);
     assert(found_vertex4);
     assert(found_vertex5);
-
-    bool found_vertex6 = false;
-    for(auto vertex : subgraphs.at(1) ){
-      if(vertex==6) found_vertex6 = true;
-    }
     assert(found_vertex6);
-
-    bool found_vertex7 = false;
-    bool found_vertex8 = false;
-    for(auto vertex : subgraphs.at(2) ){
-      if(vertex==7) found_vertex7 = true;
-      if(vertex==8) found_vertex8 = true;
-    }
     assert(found_vertex7);
     assert(found_vertex8);
   }

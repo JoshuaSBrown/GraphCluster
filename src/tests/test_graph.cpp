@@ -4,7 +4,7 @@
 #include <cassert>
 #include <list>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 #include "../../include/ugly/graph.hpp"
 #include "../../include/ugly/graph_node.hpp"
@@ -26,7 +26,7 @@ int main(void){
 
         list<weak_ptr<Edge>> eds = { ed1, ed2 };        
     
-        map<int,weak_ptr<GraphNode<string>>> nds;
+        unordered_map<int,weak_ptr<GraphNode<string>>> nds;
         nds[1]=GN0;
         nds[2]=GN1;
         nds[3]=GN2;
@@ -46,7 +46,7 @@ int main(void){
 
         list<weak_ptr<Edge>> eds = { ed1, ed2 };        
     
-        map<int,weak_ptr<GraphNode<string>>> nds;
+        unordered_map<int,weak_ptr<GraphNode<string>>> nds;
         nds[1]=GN0;
         nds[2]=GN1;
         nds[3]=GN2;
@@ -80,7 +80,7 @@ int main(void){
 
         list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
 
-        map<int,weak_ptr<GraphNode<string>>> nds;
+        unordered_map<int,weak_ptr<GraphNode<string>>> nds;
         nds[1]= GN0;
         nds[2]= GN1;
         nds[3]= GN2;
@@ -101,7 +101,7 @@ int main(void){
         //    4c -- 3c
         //     
         auto GN5 = shared_ptr<GraphNode<string>>(new GraphNode<string>("H"));
-        map<int,weak_ptr<GraphNode<string>>> nds2;
+        unordered_map<int,weak_ptr<GraphNode<string>>> nds2;
         nds2[1]= GN0;
         nds2[2]= GN1;
         nds2[3]= GN2;
@@ -140,7 +140,7 @@ int main(void){
 
       list<weak_ptr<Edge>> eds = { ed1, ed2, ed3, ed4, ed5 };        
 
-      map<int,weak_ptr<GraphNode<string>>> nds;
+      unordered_map<int,weak_ptr<GraphNode<string>>> nds;
       nds[1]= GN0;
       nds[2]= GN1;
       nds[3]= GN2;

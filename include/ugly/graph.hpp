@@ -2,14 +2,13 @@
 #ifndef UGLY_GRAPH_HPP
 #define UGLY_GRAPH_HPP
 
+#include <algorithm>
 #include <iostream>
-#include <map>
+#include <list>
+#include <memory>
 #include <stdexcept>
 #include <unordered_map> 
 #include <vector>
-#include <list>
-#include <algorithm>
-#include <memory>
 
 #include "../../src/libugly/edge/edge.hpp"
 #include "edge_weighted.hpp"
@@ -20,13 +19,13 @@ namespace ugly {
   template<typename... Ts>
   class Graph {
     private: 
-      std::map<int,std::weak_ptr<GraphNode<Ts>>...> nodes_;
+      std::unordered_map<int,std::weak_ptr<GraphNode<Ts>>...> nodes_;
       std::unordered_map<int,std::vector<std::pair<int,std::weak_ptr<Edge>>>> neighboring_vertices_;
       std::string label_;
       void calculateLabel_();
     public:
       Graph() {};
-      Graph(std::list<std::weak_ptr<Edge>> connections, std::map<int,std::weak_ptr<GraphNode<Ts>>...> nodes); 
+      Graph(std::list<std::weak_ptr<Edge>> connections, std::unordered_map<int,std::weak_ptr<GraphNode<Ts>>...> nodes); 
       std::vector<std::weak_ptr<Edge>> getEdgesConnectedToVertex(int vertex);
       std::vector<std::weak_ptr<Edge>> getEdgesOriginatingFromVertex(int vertex);
       std::vector<int> getVertices();
@@ -69,7 +68,7 @@ namespace ugly {
   template<typename... Ts>
   Graph<Ts...>::Graph(
       std::list<std::weak_ptr<Edge>> connections, 
-      std::map<int,std::weak_ptr<GraphNode<Ts>>...> nodes){
+      std::unordered_map<int,std::weak_ptr<GraphNode<Ts>>...> nodes){
 
     for(auto item : nodes ) {
       nodes_[item.first] = item.second;
