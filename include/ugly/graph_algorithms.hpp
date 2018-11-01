@@ -3,11 +3,13 @@
 
 #include <vector>
 #include <unordered_set>
+#include <map>
 #include <unordered_map> 
 #include <algorithm>
 #include <stdexcept>
 
 #include "../../src/libugly/edge/edge.hpp"
+#include "../../src/libugly/pair_hash.hpp"
 #include "../../src/libugly/graphvisitor/graphvisitor_depth_first.hpp"
 #include "../../src/libugly/graphvisitor/graphvisitor_generic.hpp"
 #include "graph.hpp"
@@ -135,11 +137,11 @@ namespace ugly {
 
 
     template<class... Ts>
-      std::map<std::pair<int,int>,double> maxMinimumDistanceBetweenEveryVertex( Graph<Ts...>& graph){
+      std::unordered_map<std::pair<int,int>,double,ugly::hash_functions::hash> maxMinimumDistanceBetweenEveryVertex( Graph<Ts...>& graph){
 
         bool graph_directional = graph.directional();
 
-        std::map<std::pair<int,int>,double> maxMinDistanceOfGraphVertices;
+        std::unordered_map<std::pair<int,int>,double,ugly::hash_functions::hash> maxMinDistanceOfGraphVertices;
         auto vertices = graph.getVertices();
 
         for(auto vertices_it1 = vertices.begin();

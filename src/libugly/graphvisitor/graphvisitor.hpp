@@ -5,7 +5,7 @@
 #include <vector>
 #include <list>
 #include <set>
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <stdexcept>
 #include <functional>
@@ -60,14 +60,14 @@ namespace ugly {
       bool allEdgesExplored() const { return edges_to_explore_.size()==0 ;}
     protected:
       // First int is the vertex, the double is the distance
-      std::map<int,double> explored_vertices_;
+      std::unordered_map<int,double> explored_vertices_;
       std::set<std::weak_ptr<Edge>> explored_edges_;
       // If I do not use a reference wrapper here than I will be unable to take
       // advantage of polymorphism as the list will simply use the Edge class
       std::list<std::weak_ptr<Edge>> edges_to_explore_;
       std::list<constants::EdgeType> allowed_edge_types_;
       
-      std::map<constants::EdgeType,std::vector<constants::EdgeType>> allowed_conversions_;
+      std::unordered_map<constants::EdgeType,std::vector<constants::EdgeType>> allowed_conversions_;
 
       int starting_vertex_;
       bool starting_vertex_set_;

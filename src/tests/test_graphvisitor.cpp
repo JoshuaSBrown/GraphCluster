@@ -4,7 +4,6 @@
 #include <cassert>
 #include <list>
 #include <vector>
-#include <map>
 
 #include "../libugly/graphvisitor/graphvisitor.hpp"
 #include "../../include/ugly/edge_weighted.hpp"
