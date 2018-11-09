@@ -1,10 +1,12 @@
-#include "graphvisitor_generic.hpp"
 #include "../../../include/ugly/edge_directed.hpp"
 #include "../../../include/ugly/edge_directed_weighted.hpp"
 #include "../../../include/ugly/edge_undirected.hpp"
 #include "../../../include/ugly/edge_weighted.hpp"
+#include "../../../include/ugly/graphvisitor/graphvisitor_generic.hpp"
+
 #include "../edge/edge.hpp"
 #include "../weak_pointer_supplement.hpp"
+
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>

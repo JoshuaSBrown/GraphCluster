@@ -8,13 +8,14 @@
 #include <unordered_set>
 #include <vector>
 
-#include "../../src/libugly/edge/edge.hpp"
-#include "../../src/libugly/graphvisitor/graphvisitor_depth_first.hpp"
-#include "../../src/libugly/graphvisitor/graphvisitor_generic.hpp"
 #include "constants.hpp"
 #include "graph.hpp"
+#include "graphvisitor/graphvisitor_depth_first.hpp"
+#include "graphvisitor/graphvisitor_generic.hpp"
 #include "graph_node.hpp"
 #include "pair_hash.hpp"
+
+#include "../../src/libugly/edge/edge.hpp"
 
 namespace ugly {
 namespace graphalgorithms {

@@ -9,8 +9,9 @@
 #include "../../include/ugly/edge_directed.hpp"
 #include "../../include/ugly/edge_undirected.hpp"
 #include "../../include/ugly/edge_weighted.hpp"
-#include "../libugly/graphvisitor/graphvisitor_smallest_known_value.hpp"
+#include "../../include/ugly/graphvisitor/graphvisitor_smallest_known_value.hpp"
 #include "../libugly/weak_pointer_supplement.hpp"
+
 using namespace ugly;
 using namespace std;
 
