@@ -51,7 +51,7 @@ class EdgeWeighted : public EdgeDirectedWeighted {
   EdgeWeighted(const EdgeWeighted &edgeweighted)
       : EdgeDirectedWeighted(edgeweighted){};
 
-  EdgeWeighted(cdonst Edge &edge) {
+  EdgeWeighted(const Edge &edge) {
     if (edge.getEdgeType() == getClassType()) {
       const EdgeWeighted *edw = static_cast<const EdgeWeighted *>(&edge);
 
