@@ -1,6 +1,7 @@
 
-#include "graphvisitor_depth_first.hpp"
 #include "../../../include/ugly/edge_weighted.hpp"
+#include "../../../include/ugly/graphvisitor/graphvisitor_depth_first.hpp"
+
 #include <memory>
 
 using namespace std;

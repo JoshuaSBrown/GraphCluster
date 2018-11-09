@@ -1,10 +1,12 @@
-#include "graphvisitor.hpp"
+
+#include "../../../include/ugly/graphvisitor/graphvisitor.hpp"
+
 #include "../edge/edge.hpp"
+#include "../weak_pointer_supplement.hpp"
+
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
-//#include "../reference_wrapper_suplement.hpp"
-#include "../weak_pointer_supplement.hpp"
 
 using namespace std;
 
