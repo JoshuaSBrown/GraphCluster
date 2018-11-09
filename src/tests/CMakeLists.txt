@@ -2,6 +2,7 @@
 foreach(PROG 
     test_edge_directed
     test_edge_directed_weighted
+    test_edge_integration
     test_edge_undirected 
     test_edge_weighted 
     test_graph
@@ -9,7 +10,8 @@ foreach(PROG
     test_graph_node 
     test_graphvisitor
     test_graphvisitor_depth_first
-    test_graphvisitor_generic)
+    test_graphvisitor_generic
+    test_graphvisitor_smallest_known_value)
   file(GLOB ${PROG}_SOURCES ${PROG}.cpp)
   add_executable(unit_${PROG} ${${PROG}_SOURCES})
   target_link_libraries(unit_${PROG} ugly)
