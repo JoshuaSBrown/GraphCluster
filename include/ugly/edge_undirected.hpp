@@ -28,8 +28,9 @@ class EdgeUndirected : public Edge {
     if (edge.getEdgeType() == getClassType()) {
       object_type_   = constants::EdgeType::undirected;
       edge_directed_ = false;
-      vertex1_       = edge.getVertex1();
-      vertex2_       = edge.getVertex2();
+
+      vertex1_ = edge.getVertex1();
+      vertex2_ = edge.getVertex2();
     } else {
       throw std::invalid_argument("Cannot initialize directed edge");
     }

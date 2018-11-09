@@ -38,10 +38,11 @@ class EdgeDirectedWeighted : public Edge {
 
   EdgeDirectedWeighted(const EdgeDirectedWeighted &edgedirectedweighted)
       : Edge() {
-    vertex1_       = edgedirectedweighted.vertex1_;
-    vertex2_       = edgedirectedweighted.vertex2_;
+    vertex1_ = edgedirectedweighted.vertex1_;
+    vertex2_ = edgedirectedweighted.vertex2_;
+    weight_  = edgedirectedweighted.weight_;
+
     object_type_   = edgedirectedweighted.object_type_;
-    weight_        = edgedirectedweighted.weight_;
     edge_directed_ = true;
   }
 
@@ -49,10 +50,11 @@ class EdgeDirectedWeighted : public Edge {
     if (edge.getEdgeType() == getClassType()) {
       const EdgeDirectedWeighted *edw =
           static_cast<const EdgeDirectedWeighted *>(&edge);
+      vertex1_ = edw->getVertex1();
+      vertex2_ = edw->getVertex2();
+      weight_  = edw->getWeight();
+
       object_type_   = constants::EdgeType::directed_weighted;
-      vertex1_       = edw->getVertex1();
-      vertex2_       = edw->getVertex2();
-      weight_        = edw->getWeight();
       edge_directed_ = true;
     }
   }
@@ -61,7 +63,8 @@ class EdgeDirectedWeighted : public Edge {
       const EdgeDirectedWeighted &EdgeDirectedWeighted);
 
   void setWeight(double weight) { weight_ = weight; }
-  double                getWeight() const { return weight_; }
+
+  double getWeight() const { return weight_; }
 
   static constants::EdgeType getClassType();
 };

@@ -54,11 +54,13 @@ class EdgeWeighted : public EdgeDirectedWeighted {
   EdgeWeighted(cdonst Edge &edge) {
     if (edge.getEdgeType() == getClassType()) {
       const EdgeWeighted *edw = static_cast<const EdgeWeighted *>(&edge);
-      object_type_            = constants::EdgeType::weighted;
-      vertex1_                = edw->getVertex1();
-      vertex2_                = edw->getVertex2();
-      weight_                 = edw->getWeight();
-      edge_directed_          = false;
+
+      vertex1_ = edw->getVertex1();
+      vertex2_ = edw->getVertex2();
+      weight_  = edw->getWeight();
+
+      object_type_   = constants::EdgeType::weighted;
+      edge_directed_ = false;
     } else {
       throw std::invalid_argument("Cannot initialize edgeweighted");
     }

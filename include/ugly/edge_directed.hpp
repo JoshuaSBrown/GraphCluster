@@ -24,8 +24,9 @@ class EdgeDirected : public Edge {
   EdgeDirected(const Edge& edge) {
     if (edge.getEdgeType() == getClassType()) {
       object_type_ = constants::EdgeType::directed;
-      vertex1_     = edge.getVertex1();
-      vertex2_     = edge.getVertex2();
+
+      vertex1_ = edge.getVertex1();
+      vertex2_ = edge.getVertex2();
     } else {
       throw std::invalid_argument("Cannot initialize directed edge");
     }
