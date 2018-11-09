@@ -1,4 +1,4 @@
-#include "graphvisitor_generic.hpp"
+#include "graphvisitor_smallest_known_value.hpp"
 #include "../../../include/ugly/edge_directed.hpp"
 #include "../../../include/ugly/edge_directed_weighted.hpp"
 #include "../../../include/ugly/edge_undirected.hpp"
@@ -16,29 +16,23 @@ namespace ugly {
 /****************************************************************************
  * External public facing methods
  ****************************************************************************/
-GraphVisitorGeneric::GraphVisitorGeneric() {
-  allowed_edge_types_.push_back(constants::EdgeType::undirected);
-  allowed_edge_types_.push_back(constants::EdgeType::directed);
+GraphVisitorSmallestKnownValue::GraphVisitorSmallestKnownValue() {
   allowed_edge_types_.push_back(constants::EdgeType::directed_weighted);
   allowed_edge_types_.push_back(constants::EdgeType::weighted);
 
-  allowed_conversions_[constants::EdgeType::undirected].push_back(
-      constants::EdgeType::edge);
-  allowed_conversions_[constants::EdgeType::directed].push_back(
-      constants::EdgeType::edge);
   allowed_conversions_[constants::EdgeType::directed_weighted].push_back(
       constants::EdgeType::edge);
   allowed_conversions_[constants::EdgeType::weighted].push_back(
       constants::EdgeType::edge);
 }
 
-void GraphVisitorGeneric::exploreEdge_(weak_ptr<Edge> edge_ptr) {
+void GraphVisitorSmallestKnownValue::exploreEdge_(weak_ptr<Edge> edge_ptr) {
   if (!verticesHaveBeenExplored(edge_ptr)) {
     explored_vertices_[getUnexploredVertex(edge_ptr)] = 1.0;
   }
 }
 
-void GraphVisitorGeneric::addEdges(vector<weak_ptr<Edge>> edges) {
+void GraphVisitorSmallestKnownValue::addEdges(vector<weak_ptr<Edge>> edges) {
   for (auto edge_ptr : edges) {
     addEdge(edge_ptr);
   }
@@ -48,9 +42,26 @@ void GraphVisitorGeneric::addEdges(vector<weak_ptr<Edge>> edges) {
  * Internal private functions
  ****************************************************************************/
 
-void GraphVisitorGeneric::addEdge_(weak_ptr<Edge>) { return; }
+void GraphVisitorSmallestKnownValue::addEdge_(weak_ptr<Edge>) { return; }
 
-weak_ptr<Edge> GraphVisitorGeneric::getNextEdge_() {
-  return (*edges_to_explore_.begin());
+weak_ptr<Edge> GraphVisitorSmallestKnownValue::getNextEdge_() {
+  double initial_weight;
+  auto   edge_to_explore = edges_to_explore_.begin();
+  auto   edge            = *edge_to_explore;
+  if (auto ed = edge.lock()) {
+    auto edge_weighted_ptr = static_pointer_cast<EdgeWeighted>(ed);
+    initial_weight         = edge_weighted_ptr->getWeight();
+  }
+  while (edge_to_explore != edges_to_explore_.end()) {
+    if (auto ed = edge_to_explore->lock()) {
+      auto edge_weighted_ptr = static_pointer_cast<EdgeWeighted>(ed);
+      if (edge_weighted_ptr->getWeight() < initial_weight) {
+        initial_weight = edge_weighted_ptr->getWeight();
+        edge           = *edge_to_explore;
+      }
+    }
+    ++edge_to_explore;
+  }
+  return edge;
 }
 }
