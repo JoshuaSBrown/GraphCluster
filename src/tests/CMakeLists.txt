@@ -11,6 +11,7 @@ foreach(PROG
     test_graphvisitor
     test_graphvisitor_depth_first
     test_graphvisitor_generic
+    test_graphvisitor_largest_known_value
     test_graphvisitor_smallest_known_value)
   file(GLOB ${PROG}_SOURCES ${PROG}.cpp)
   add_executable(unit_${PROG} ${${PROG}_SOURCES})
