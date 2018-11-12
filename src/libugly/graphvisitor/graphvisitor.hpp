@@ -104,8 +104,11 @@ std::weak_ptr<T> GraphVisitor::getNextEdge() {
         }
       }
     }
+  }else{
+    throw std::runtime_error("Error the edge has been freed from memory you "
+        "can no longer access it");
   }
-  throw std::runtime_error("Error cannot retrive edge of the type specified.");
+  throw std::runtime_error("Error cannot retrieve edge of the type specified.");
 }
 }
 
