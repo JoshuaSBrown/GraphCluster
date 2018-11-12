@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "../../include/ugly/edge_weighted.hpp"
-#include "../../include/ugly/graphvisitor/graphvisitor.hpp"
+#include "../libugly/graphvisitor/graphvisitor.hpp"
 
 using namespace ugly;
 using namespace std;
