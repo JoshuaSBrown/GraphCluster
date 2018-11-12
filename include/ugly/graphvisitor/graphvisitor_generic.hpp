@@ -2,7 +2,7 @@
 #ifndef UGLY_GRAPHVISITORGENERIC_HPP
 #define UGLY_GRAPHVISITORGENERIC_HPP
 
-#include "graphvisitor.hpp"
+#include "../../../src/libugly/graphvisitor/graphvisitor.hpp"
 
 namespace ugly {
 

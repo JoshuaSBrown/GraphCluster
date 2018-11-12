@@ -2,7 +2,7 @@
 #ifndef UGLY_GRAPHVISITORSMALLESTKNOWNVALUE_HPP
 #define UGLY_GRAPHVISITORSMALLESTKNOWNVALUE_HPP
 
-#include "graphvisitor.hpp"
+#include "../../../src/libugly/graphvisitor/graphvisitor.hpp"
 
 namespace ugly {
 
