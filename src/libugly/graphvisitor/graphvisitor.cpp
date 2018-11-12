@@ -1,5 +1,5 @@
 
-#include "../../../include/ugly/graphvisitor/graphvisitor.hpp"
+#include "graphvisitor.hpp"
 
 #include "../edge/edge.hpp"
 #include "../weak_pointer_supplement.hpp"
