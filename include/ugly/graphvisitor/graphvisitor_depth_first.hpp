@@ -1,8 +1,8 @@
 
-#ifndef UGLY_GRAPHVISITORDEPTHVIRST_HPP
-#define UGLY_GRAPHVISITORDEPTHVIRST_HPP
+#ifndef UGLY_GRAPHVISITORDEPTHFIRST_HPP
+#define UGLY_GRAPHVISITORDEPTHFIRST_HPP
 
-#include "graphvisitor.hpp"
+#include "../../../src/libugly/graphvisitor/graphvisitor.hpp"
 
 namespace ugly {
 
