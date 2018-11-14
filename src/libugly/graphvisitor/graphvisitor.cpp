@@ -164,6 +164,10 @@ int GraphVisitor::getExploredVertex(weak_ptr<Edge> edge_ptr) const {
   throw invalid_argument("Cannot convert weak pointer to shared pointer.");
 }
 
+size_t GraphVisitor::countExploredVertices() const {
+  return explored_vertices_.size();
+}
+
 vector<int> GraphVisitor::getExploredVertices() const {
   vector<int> explored_vertices;
   for (auto vertex : explored_vertices_) {

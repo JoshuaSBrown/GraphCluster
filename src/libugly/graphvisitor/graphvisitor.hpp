@@ -42,6 +42,7 @@ class GraphVisitor {
   int getExploredVertex(std::weak_ptr<Edge> edge) const;
   std::vector<int> getExploredVertices() const;
 
+  size_t countExploredVertices() const;
   /**
    * \brief Determine if an edge can be added
    *
