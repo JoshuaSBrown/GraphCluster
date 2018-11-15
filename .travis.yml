@@ -17,6 +17,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
         - COMPILE_FLAGS="-DENABLE_TESTING=ON"
+        - BUILD_UNIT_TEST=1
     - os: linux
       addons:
         apt:
@@ -28,6 +29,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
         - COMPILE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
+        - BUILD_UNIT_TEST=0
       addons:
         apt:
           sources:
@@ -38,6 +40,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
         - COMPILE_FLAGS="-DENABLE_TESTING=ON"
+        - BUILD_UNIT_TEST=1
     - os: linux
       addons:
         apt:
@@ -49,6 +52,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
         - COMPILE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
+        - BUILD_UNIT_TEST=0
 
  
 
@@ -72,4 +76,5 @@ install:
 script:
   - mkdir build
   - cd build
-  - ${DEPS_DIR}/cmake/bin/cmake "${COMPILE_FLAGS}" .. && make && make test
+  - ${DEPS_DIR}/cmake/bin/cmake "${COMPILE_FLAGS}" .. && make 
+  - if [ "${BUILD_UNIT_TEST}" = "1" ]; then make test; fi
