@@ -47,12 +47,14 @@ void GraphVisitorSmallestKnownValue::addEdges(vector<weak_ptr<Edge>> edges) {
 void GraphVisitorSmallestKnownValue::addEdge_(weak_ptr<Edge>) { return; }
 
 weak_ptr<Edge> GraphVisitorSmallestKnownValue::getNextEdge_() {
-  double initial_weight;
+  double initial_weight = 0.0;
   auto   edge_to_explore = edges_to_explore_.begin();
   auto   edge            = *edge_to_explore;
   if (auto ed = edge.lock()) {
     auto edge_weighted_ptr = static_pointer_cast<EdgeWeighted>(ed);
     initial_weight         = edge_weighted_ptr->getWeight();
+  }else{
+    throw runtime_error("edge is not accesible");
   }
   while (edge_to_explore != edges_to_explore_.end()) {
     if (auto ed = edge_to_explore->lock()) {
