@@ -78,4 +78,4 @@ script:
   - mkdir build
   - cd build
   - ${DEPS_DIR}/cmake/bin/cmake "${COMPILE_FLAGS}" .. && make 
-  - if [ "${BUILD_UNIT_TEST}" = "1" ]; then make test; fi
+  - if [[ "${BUILD_UNIT_TEST}" == "1" ]]; then make test; fi
