@@ -72,4 +72,4 @@ install:
 script:
   - mkdir build
   - cd build
-  - ${DEPS_DIR}/cmake/bin/cmake ${COMPILE_FLAGS} .. && make && make test
+  - ${DEPS_DIR}/cmake/bin/cmake "${COMPILE_FLAGS}" .. && make && make test
