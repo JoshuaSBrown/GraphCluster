@@ -30,6 +30,7 @@ matrix:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
         - COMPILE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
         - BUILD_UNIT_TEST=0
+    - os:
       addons:
         apt:
           sources:
