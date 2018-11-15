@@ -34,6 +34,7 @@ class EdgeDirectedWeighted : public Edge {
       : Edge(vertex1, vertex2) {
     object_type_ = constants::EdgeType::directed_weighted;
     weight_      = weight;
+    std::cout << "vertex1 " << vertex1_ << " vertex2 " << vertex2_ << std::endl;
   }
 
   EdgeDirectedWeighted(const EdgeDirectedWeighted &edgedirectedweighted)

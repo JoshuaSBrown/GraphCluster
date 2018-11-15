@@ -47,7 +47,7 @@ void GraphVisitorLargestKnownValue::addEdges(vector<weak_ptr<Edge>> edges) {
 void GraphVisitorLargestKnownValue::addEdge_(weak_ptr<Edge>) { return; }
 
 weak_ptr<Edge> GraphVisitorLargestKnownValue::getNextEdge_() {
-  double initial_weight;
+  double initial_weight = 0.0;
   auto   edge_to_explore = edges_to_explore_.begin();
 
   auto edge = *edge_to_explore;
