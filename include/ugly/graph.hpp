@@ -114,7 +114,6 @@ Graph<Ts...>::Graph(
     nodes_[item.first] = item.second;
   }
   for (auto edge_ptr : connections) {
-
     if (auto edge = edge_ptr.lock()) {
       neighboring_vertices_[edge->getVertex1()].push_back(
           std::pair<int, std::weak_ptr<Edge>>(edge->getVertex2(), edge_ptr));
